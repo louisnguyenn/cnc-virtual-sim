@@ -1,5 +1,5 @@
 add_executable(cnc_tests
-    # test files will go here later
+    test.cpp
 )
 
 target_link_libraries(cnc_tests PRIVATE GTest::gtest_main)
