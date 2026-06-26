@@ -15,7 +15,7 @@ struct LinearMove
     double x, y, z; // position
     double feedrate;
     bool rapid; // G0 = true (fast), G1 = false (controlled)
-}
+};
 
 struct ArcMove
 {
@@ -23,23 +23,23 @@ struct ArcMove
     double i, j, k; // offset to arc centre
     double feedrate;
     bool clockwise; // G2 = true, G3 = false (counterclockwise)
-}
+};
 
 struct SpindleCmd
 {
     bool on;
     int rpm;
-}
+};
 
 struct DwellCmd
 {
     double seconds; // G4 P__ - pause for 'x' amount of seconds
-}
+};
 
 struct ProgramEnd
 {
     // M30 - end of program
-}
+};
 
 // setting GCommand as an alias
 // could be ANY of the types (GCode)
