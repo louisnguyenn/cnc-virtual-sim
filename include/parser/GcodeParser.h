@@ -21,4 +21,4 @@ class GcodeParser
     GcodeParser();
     std::optional<GCommand> parseLine(const std::string &line); // parse a single line
     std::vector<GCommand> parseFile(const std::string &path);   // parse an entire file
-}
+};
