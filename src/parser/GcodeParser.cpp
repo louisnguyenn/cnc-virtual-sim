@@ -16,6 +16,9 @@ GcodeParser::GcodeParser()
 {
 }
 
+/// @brief removes anything after a semicolon
+/// @param line 
+/// @return {std::string} - line
 std::string GcodeParser::stripComment(const std::string &line)
 {
     auto pos = line.find(';');
@@ -27,7 +30,25 @@ std::string GcodeParser::stripComment(const std::string &line)
     return line;
 }
 
-std::unordered_map<char, double> tokenise(const std::string &line);
+/// @brief break gcode formatting "G1 X10.5 Y-3.2 F300" into {G:1, X:10.5, Y:-3.2, F:300}
+/// @param line 
+/// @return {std::unordered_map} - words
+std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
+{
+    std::unordered_map<char, double> words;
+    std::istringstream ss(line);
+    char letter;
+    double value;
+
+    while (ss >> letter >> value)
+    {
+        letter = std::toupper(letter);
+        words[letter] = value;
+    }
+
+    return words;
+}
+
 std::optional<GCommand> buildCommand(int gCode, const std::unordered_map<char, double> &words);
 std::optional<GCommand> parseLine(const std::string &line); // parse a single line
 std::vector<GCommand> parseFile(const std::string &path);   // parse an entire file
