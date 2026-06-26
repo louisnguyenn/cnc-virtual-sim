@@ -49,6 +49,21 @@ std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
     return words;
 }
 
-std::optional<GCommand> buildCommand(int gCode, const std::unordered_map<char, double> &words);
-std::optional<GCommand> parseLine(const std::string &line); // parse a single line
+/// @brief build 
+/// @param gCode 
+/// @param words 
+/// @return {std::optional<GCommand>} 
+std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordered_map<char, double> &words)
+{
+    
+}
+
+/// @brief parse a single line
+/// @param line 
+/// @return {std::optional<GCommand>} line
+std::optional<GCommand> GcodeParser::parseLine(const std::string &line)
+{
+
+} 
+
 std::vector<GCommand> parseFile(const std::string &path);   // parse an entire file
