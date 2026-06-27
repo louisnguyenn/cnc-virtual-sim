@@ -37,5 +37,8 @@ struct Vec3
     }
 
     // length of vector from origin
-    // TODO
+    double length() const
+    {
+        return std::sqrt(x * x + y * y + z * z);
+    }
 }
