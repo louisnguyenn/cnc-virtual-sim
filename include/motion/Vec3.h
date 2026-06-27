@@ -9,7 +9,10 @@ struct Vec3
     double z{0.0};
 
     // add two vectors
-    // TODO
+    Vec3 operator+(const Vec3 other) const
+    {
+        return {x + other.x, y + other.y, z + other.z};
+    }
     
     // subtract two vectors
     // TODO
