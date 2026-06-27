@@ -160,10 +160,12 @@ std::optional<GCommand> GcodeParser::parseLine(const std::string &line)
         if (gCode == 90)
         {
             m_absoluteMode = true;
+            return std::nullopt;
         }
         else if (gCode == 91)
         {
             m_absoluteMode = false;
+            return std::nullopt;
         }
 
         if (words.count('F'))
@@ -206,6 +208,7 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
 
     // try to open file
     std::ifstream file(path);
+    // std::ifstream file("tests/programs/square.gcode"); // for testing
     if (!file.is_open())
     {
         std::cerr << "Error: could not open file " << path << '\n';
@@ -220,8 +223,8 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
         {
             commands.push_back(*cmd);
         }
-
-        std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
-        return commands;
     }
+
+    std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
+    return commands;
 }
