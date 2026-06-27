@@ -51,7 +51,7 @@ std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
 }
 
 // helper
-auto get(char c, const std::unordered_map<char, double> &words)
+double get(char c, const std::unordered_map<char, double> &words)
 {
     return words.count(c) ? words.at(c) : 0.0;
 }
