@@ -12,4 +12,4 @@ target_sources(cnc_tests PRIVATE
 )
 
 include(GoogleTest)
-gtest_discover_tests(cnc_tests)
+gtest_add_tests(TARGET cnc_tests)
