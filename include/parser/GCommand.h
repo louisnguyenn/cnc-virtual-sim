@@ -27,8 +27,8 @@ struct ArcMove
 
 struct SpindleCmd
 {
-    bool on;
-    int rpm;
+    bool on;    // M3 - spindle on, M5 - spindle off
+    int rpm;    // default - 1000
 };
 
 struct DwellCmd
