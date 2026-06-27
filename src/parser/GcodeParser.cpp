@@ -50,6 +50,12 @@ std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
     return words;
 }
 
+// helper
+auto get(char c, const std::unordered_map<char, double> &words)
+{
+    return words.count(c) ? words.at(c) : 0.0;
+}
+
 /// @brief build the parsed GCode into a C++ GCommand
 /// fills in the corresponding struct with the gcode
 /// @param gCode
@@ -57,7 +63,70 @@ std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
 /// @return {std::optional<GCommand>}
 std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordered_map<char, double> &words)
 {
-    // TODO
+    double feedrate = words.count('F') ? words.at('F') : m_currentFeedrate;
+
+    /*
+        G0  Rapid move (as fast as possible)
+        G1  Linear move (at a set feed rate)
+    */
+    if (gCode == 0 || gCode == 1)
+    {
+        LinearMove lin_move;
+
+        lin_move.x = get('X', words);
+        lin_move.y = get('Y', words);
+        lin_move.z = get('Z', words);
+        lin_move.feedrate = feedrate;
+
+        // G0 = true (fast), G1 = false (controlled)
+        if (gCode == 0)
+        {
+            lin_move.rapid = true;
+        }
+        else if (gCode == 1)
+        {
+            lin_move.rapid = false;
+        }
+
+        return lin_move;
+    }
+
+    /*
+        G2  Arc move, clockwise
+        G3  Arc move, counter-clockwise
+    */
+    if (gCode == 2 || gCode == 3)
+    {
+        ArcMove arc;
+
+        arc.x = get('X', words);
+        arc.y = get('Y', words);
+        arc.z = get('Z', words);
+        arc.i = get('I', words);
+        arc.j = get('J', words);
+        arc.k = get('K', words);
+        arc.feedrate = feedrate;
+
+        // G2 = true, G3 = false (counterclockwise)
+        if (gCode == 2)
+        {
+            arc.clockwise = true;
+        }
+        else if (gCode == 3)
+        {
+            arc.clockwise = false;
+        }
+
+        return arc;
+    }
+
+    if (gCode == 4)
+    {
+        return DwellCmd{get('P', words)};
+    }
+
+    std::cerr << "Unknown G-code: G" << gCode << '\n'; // unknown g-code
+    return std::nullopt;
 }
 
 /// @brief parse a single line

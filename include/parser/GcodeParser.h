@@ -14,7 +14,7 @@ G1  Linear move (at a set feed rate)
 G2  Arc move, clockwise
 G3  Arc move, counter-clockwise
 G90 Absolute positioning mode
-G91 Incremental positioning mode\
+G91 Incremental positioning mode
 M3  Spindle on
 M5  Spindle off
 M30 End of program
