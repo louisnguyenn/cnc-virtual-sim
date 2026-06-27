@@ -51,8 +51,8 @@ std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
 }
 
 /// @brief helper, instant look up in map
-/// @param c 
-/// @param words 
+/// @param c
+/// @param words
 /// @return value (double)
 double get(char c, const std::unordered_map<char, double> &words)
 {
@@ -199,7 +199,29 @@ std::optional<GCommand> GcodeParser::parseLine(const std::string &line)
 /// @brief parse an entire file
 /// @param path
 /// @return {std::vector<GCommand>} full vector of converted Gcode to C++ Gcommands
-std::vector<GCommand> parseFile(const std::string &path)
+std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
 {
-    // TODO
+    std::vector<GCommand> commands;
+    std::string line;
+
+    // try to open file
+    std::ifstream file(path);
+    if (!file.is_open())
+    {
+        std::cerr << "Error: could not open file " << path << '\n';
+        return {}; // return empty vector
+    }
+
+    while (std::getline(file, line))
+    {
+        auto cmd = parseLine(line);
+
+        if (cmd.has_value())
+        {
+            commands.push_back(*cmd);
+        }
+
+        std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
+        return commands;
+    }
 }
