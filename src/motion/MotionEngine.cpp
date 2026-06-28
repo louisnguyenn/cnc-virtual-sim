@@ -39,7 +39,24 @@ void MotionEngine::execute(const GCommand &cmd)
     }
 }
 
-void executeLinear(const LinearMove &move);
+void MotionEngine::executeLinear(const LinearMove &move)
+{
+    Vec3 target{move.x, move.y, move.z};
+    Vec3 start = m_state.position;
+
+    auto points = interpolateLinear(start, target);
+
+    // add points to tool path
+    for (const auto& pt : points)
+    {
+        m_toolpath.push_back(pt);
+    }
+
+    // update machine state
+    double distance = start.distanceTo(target);
+    
+}
+
 void executeArc(const ArcMove &arc);
 void executeSpindle(const SpindleCmd &cmd);
 void executeDwell(const DwellCmd &cmd);
