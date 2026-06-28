@@ -26,8 +26,8 @@ struct Vec3
         return {x * scalar, y * scalar, z * scalar};
     }
 
-    // distance between two points
-    double distanceBetween(const Vec3 other) const
+    // distance to a point
+    double distanceTo(const Vec3 other) const
     {
         double d_x = abs(other.x - x);
         double d_y = abs(other.y - y);
