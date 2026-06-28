@@ -72,12 +72,24 @@ void MotionEngine::executeLinear(const LinearMove &move)
               << (move.rapid ? " (rapid)\n" : "\n");
 }
 
-void executeArc(const ArcMove &arc);
-void executeSpindle(const SpindleCmd &cmd);
-void executeDwell(const DwellCmd &cmd);
+void MotionEngine::executeArc(const ArcMove &arc)
+{
+}
+
+void MotionEngine::executeSpindle(const SpindleCmd &cmd)
+{
+}
+
+void MotionEngine::executeDwell(const DwellCmd &cmd)
+{
+}
 
 // interpolation methods
-std::vector<Vec3> interpolateLinear(const Vec3 &from, const Vec3 &to, double stepMm = 0.1);
+std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &to, double stepMm = 0.1)
+{
+}
 
-std::vector<Vec3> interpolateArc(const Vec3 &start, const Vec3 &end, double i, double j, bool clockwise,
-                                 double stepDeg = 0.5);
+std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &end, double i, double j, bool clockwise,
+                                               double stepDeg = 0.5)
+{
+}
