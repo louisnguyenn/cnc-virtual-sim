@@ -14,8 +14,29 @@ const std::vector<Vec3> &MotionEngine::getToolPath() const
     return m_toolpath;
 }
 
-void execute(const GCommand &cmd)
+void MotionEngine::execute(const GCommand &cmd)
 {
+    if (std::holds_alternative<LinearMove>(cmd))
+    {
+        executeLinear(std::get<LinearMove>(cmd));
+    }
+    else if (std::holds_alternative<ArcMove>(cmd))
+    {
+        executeArc(std::get<ArcMove>(cmd));
+    }
+    else if (std::holds_alternative<SpindleCmd>(cmd))
+    {
+        executeSpindle(std::get<SpindleCmd>(cmd));
+    }
+    else if (std::holds_alternative<DwellCmd>(cmd))
+    {
+        executeDwell(std::get<DwellCmd>(cmd));
+    }
+    else if (std::holds_alternative<ProgramEnd>(cmd))
+    {
+        setState(MachineStatus::FINISHED);
+        std::cout << "[INFO] Program End\n";
+    }
 }
 
 void executeLinear(const LinearMove &move);

@@ -24,6 +24,11 @@ class MotionEngine
   public:
     explicit MotionEngine(MachineState &state);
 
+    void setState(MachineStatus state)
+    {
+        m_state.status = state;
+    }
+
     void execute(const GCommand &cmd); // execute a gcommand
 
     const std::vector<Vec3> &getToolPath() const; // return tool position
