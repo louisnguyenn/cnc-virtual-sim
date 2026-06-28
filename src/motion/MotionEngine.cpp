@@ -14,6 +14,8 @@ const std::vector<Vec3> &MotionEngine::getToolPath() const
     return m_toolpath;
 }
 
+/// @brief execute a g command based on it's command (LinearMove, ArcMove, etc.)
+/// @param cmd
 void MotionEngine::execute(const GCommand &cmd)
 {
     if (std::holds_alternative<LinearMove>(cmd))
@@ -39,6 +41,8 @@ void MotionEngine::execute(const GCommand &cmd)
     }
 }
 
+/// @brief execute linear move
+/// @param move - type LinearMove
 void MotionEngine::executeLinear(const LinearMove &move)
 {
     Vec3 target{move.x, move.y, move.z};
@@ -47,14 +51,25 @@ void MotionEngine::executeLinear(const LinearMove &move)
     auto points = interpolateLinear(start, target);
 
     // add points to tool path
-    for (const auto& pt : points)
+    for (const auto &pt : points)
     {
         m_toolpath.push_back(pt);
     }
 
     // update machine state
     double distance = start.distanceTo(target);
-    
+    m_state.totalDistance += distance;
+    m_state.position = target;
+    m_state.feedrate = move.feedrate;
+
+    // calculate cycle time
+    if (move.feedrate > 0.0 && !move.rapid)
+    {
+        m_state.cycleTimeSeconds += (distance / move.feedrate) * 60.0;
+    }
+
+    std::cout << "[INFO] LinearMove → X:" << target.x << " Y:" << target.y << " Z:" << target.z
+              << (move.rapid ? " (rapid)\n" : "\n");
 }
 
 void executeArc(const ArcMove &arc);
