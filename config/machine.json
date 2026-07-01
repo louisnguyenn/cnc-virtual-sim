@@ -1,0 +1,10 @@
+{
+  "machine_name": "VMC-3Axis-Sim",
+  "axes": {
+    "x": { "min_mm": -500.0, "max_mm": 500.0, "max_feedrate_mmpm": 10000.0 },
+    "y": { "min_mm": -400.0, "max_mm": 400.0, "max_feedrate_mmpm": 10000.0 },
+    "z": { "min_mm": -300.0, "max_mm": 0.0, "max_feedrate_mmpm": 5000.0 }
+  },
+  "spindle": { "min_rpm": 100, "max_rpm": 12000 },
+  "acceleration_mm_s2": 500.0
+}
