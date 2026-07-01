@@ -111,6 +111,9 @@ void MotionEngine::executeSpindle(const SpindleCmd &cmd)
 
 void MotionEngine::executeDwell(const DwellCmd &cmd)
 {
+    m_state.cycleTimeSeconds += cmd.seconds;
+
+    std::cout << "[INFO] Dwell " << cmd.seconds << "s\n";
 }
 
 // interpolation methods
