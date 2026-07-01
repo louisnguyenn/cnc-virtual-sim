@@ -24,23 +24,31 @@ const MachineState &Simulator::getState() const
 }
 
 /// @brief parser thread function
-/// @param path 
-/// @param queue 
+/// @param path
+/// @param queue
 void Simulator::parserThread(const std::string &path, CommandQueue<GCommand> &queue)
 {
+    GcodeParser parser;
+    auto commands{parser.parseFile(path)};
 
+    // push every command onto the queue one by one
+    for (auto &cmd : commands)
+    {
+        queue.push(cmd);
+    }
+
+    queue.done();
+    std::cout << "[Parser] Finished pushing " << commands.size() << " commands\n";
 }
 
 /// @brief simulator thread function
-/// @param queue 
+/// @param queue
 void Simulator::simulatorThread(CommandQueue<GCommand> &queue)
 {
-
 }
 
 /// @brief run a gcode file through the full pipeline
-/// @param gcodePath 
+/// @param gcodePath
 void Simulator::run(const std::string &gcodePath)
 {
-
 }
