@@ -72,8 +72,29 @@ void Simulator::simulatorThread(CommandQueue<GCommand> &queue)
     std::cout << "[Simulator] Finished executing commands\n";
 }
 
-/// @brief run a gcode file through the full pipeline
+/// @brief runs both threads into action
 /// @param gcodePath
 void Simulator::run(const std::string &gcodePath)
 {
+    CommandQueue<GCommand> queue;
+
+    m_state.status = MachineStatus::RUNNING;
+
+    std::cout << "[INFO] Starting simulation: " << gcodePath << "\n";
+
+    // launch both threads
+    std::thread parser(&Simulator::parserThread, this, std::ref(gcodePath), std::ref(queue));
+
+    std::thread sim(&Simulator::simulatorThread, this, std::ref(queue));
+
+    // wait for both threads to finish before returning
+    parser.join();
+    sim.join();
+
+    if (m_state.status != MachineStatus::ALARM)
+    {
+        m_state.status = MachineStatus::FINISHED;
+    }
+
+    std::cout << "[INFO] Simulation complete\n";
 }
