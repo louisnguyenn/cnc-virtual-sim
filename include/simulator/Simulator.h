@@ -1,15 +1,33 @@
 #pragma once
 #include "CommandQueue.h"
-#include "motion/MachineState.h"
 #include "motion/MachineConfig.h"
+#include "motion/MachineState.h"
 #include "motion/MotionEngine.h"
-#include "parser/GcodeParser.h"
 #include "parser/GCommand.h"
+#include "parser/GcodeParser.h"
+#include <atomic>
 #include <string>
 #include <thread>
-#include <atomic>
 
 class Simulator
 {
+  private:
+    MachineConfig m_config;
+    MachineState m_state;
 
+    // parser thread function
+    void parserThread(const std::string &path, CommandQueue<GCommand> &queue);
+
+    // simulator thread function
+    void simulatorThread(CommandQueue<GCommand> &queue);
+
+  public:
+    explicit Simulator(const std::string &configPath);
+
+    // run a gcode file through the full pipeline
+    void run(const std::string &gcodePath);
+
+    // getters for config and state
+    MachineConfig &getConfig() const;
+    MachineState &getState() const;
 };
