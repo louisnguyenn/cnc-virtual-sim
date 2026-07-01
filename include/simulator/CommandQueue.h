@@ -8,8 +8,9 @@ template <typename T> class CommandQueue
 {
   private:
     std::queue<T> m_queue;
-    mutable std::mutex m_mutex;
-    std::condition_variable m_cv;
+    mutable std::mutex m_mutex; // a lock, prevents two threads from accessing the queue at the same time. automatically
+                                // released when out of scope
+    std::condition_variable m_cv; // lets a thread sleep until something happens
     bool m_done{false};
 
   public:
@@ -40,7 +41,7 @@ template <typename T> class CommandQueue
             return std::nullopt;
         }
 
-        // take the first element in the queue
+        // T value takes ownership of the element, no copy is made
         T value = std::move(m_queue.front());
         m_queue.pop(); // pop it
 
