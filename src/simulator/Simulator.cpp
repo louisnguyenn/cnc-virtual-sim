@@ -10,15 +10,15 @@ Simulator::Simulator(const std::string &configPath)
     {
         throw SimulatorException("Failed to load config: " + configPath);
     }
+}
 
-    // getters
-    const MachineConfig &Simulator::getConfig() const
-    {
-        return m_config;
-    }
+// getters
+const MachineConfig &Simulator::getConfig() const
+{
+    return m_config;
+}
 
-    const MachineState &Simulator::getState() const
-    {
-        return m_state;
-    }
+const MachineState &Simulator::getState() const
+{
+    return m_state;
 }

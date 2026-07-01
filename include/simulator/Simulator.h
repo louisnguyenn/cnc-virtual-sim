@@ -28,6 +28,6 @@ class Simulator
     void run(const std::string &gcodePath);
 
     // getters for config and state
-    MachineConfig &getConfig() const;
-    MachineState &getState() const;
+    const MachineConfig &getConfig() const;
+    const MachineState &getState() const;
 };
