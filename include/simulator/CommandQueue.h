@@ -47,5 +47,13 @@ template <typename T> class CommandQueue
         return value; // return it
     }
 
-    
+    /// @brief called when parser is finished
+    //         tells consumer thread it can stop waiting
+    void done()
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_done = true;
+        m_cv.notify_all();
+    }
+
 };
