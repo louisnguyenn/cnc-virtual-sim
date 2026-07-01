@@ -225,6 +225,7 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
         }
     }
 
-    // std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
+    std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
+    
     return commands;
 }
