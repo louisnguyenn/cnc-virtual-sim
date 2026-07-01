@@ -103,6 +103,10 @@ void MotionEngine::executeArc(const ArcMove &arc)
 
 void MotionEngine::executeSpindle(const SpindleCmd &cmd)
 {
+    m_state.spindleOn = cmd.on;
+    m_state.spindleRpm = cmd.rpm;
+
+    std::cout << "[INFO] Spindle " << (cmd.on ? "ON" : "OFF") << " at " << cmd.rpm << " RPM\n";
 }
 
 void MotionEngine::executeDwell(const DwellCmd &cmd)
