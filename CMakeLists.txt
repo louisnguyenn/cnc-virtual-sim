@@ -30,7 +30,13 @@ add_executable(cnc_simulator
 )
 
 target_include_directories(cnc_simulator PRIVATE include)
-target_link_libraries(cnc_simulator PRIVATE nlohmann_json::nlohmann_json)
+
+find_package(Threads REQUIRED)
+
+target_link_libraries(cnc_simulator PRIVATE
+    nlohmann_json::nlohmann_json
+    Threads::Threads
+)
 
 # Tests
 add_subdirectory(tests)
