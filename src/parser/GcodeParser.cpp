@@ -208,7 +208,7 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
 
     // open file
     std::ifstream file(path);
-    
+
     if (!file.is_open())
     {
         std::cerr << "Error: could not open file " << path << '\n';
@@ -225,6 +225,6 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
         }
     }
 
-    std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
+    // std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
     return commands;
 }
