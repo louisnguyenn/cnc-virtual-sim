@@ -46,7 +46,7 @@ void MotionEngine::execute(const GCommand &cmd)
 void MotionEngine::executeLinear(const LinearMove &move)
 {
     Vec3 target{move.x, move.y, move.z};
-    Vec3 start = m_state.position;
+    Vec3 start{m_state.position};
 
     auto points = interpolateLinear(start, target);
 
@@ -72,8 +72,33 @@ void MotionEngine::executeLinear(const LinearMove &move)
               << (move.rapid ? " (rapid)\n" : "\n");
 }
 
+/// @brief execute arc move
+/// @param arc
 void MotionEngine::executeArc(const ArcMove &arc)
 {
+    Vec3 start{m_state.position};
+    Vec3 end{arc.x, arc.y, arc.z};
+
+    auto points = interpolateArc(start, end, arc.i, arc.j, arc.clockwise);
+
+    // add each point to the toolpath vector
+    for (const auto &pt : points)
+    {
+        m_toolpath.push_back(pt);
+    }
+
+    // update machine state
+    double distance = start.distanceTo(end);
+    m_state.totalDistance += distance;
+    m_state.position = end;
+    m_state.feedrate = arc.feedrate;
+
+    if (arc.feedrate > 0.0)
+    {
+        m_state.cycleTimeSeconds += (distance / arc.feedrate) * 60.0;
+    }
+
+    std::cout << "[INFO] ArcMove → X:" << end.x << " Y:" << end.y << (arc.clockwise ? " (CW)\n" : " (CCW)\n");
 }
 
 void MotionEngine::executeSpindle(const SpindleCmd &cmd)
@@ -112,7 +137,7 @@ std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &
     for (int i{0}; i <= steps; ++i)
     {
         double t = static_cast<double>(i) / steps;
-        points.push_back(from + (to - from) *t);
+        points.push_back(from + (to - from) * t);
     }
 
     return points;
