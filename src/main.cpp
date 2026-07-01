@@ -1,6 +1,8 @@
+#include "motion/MachineConfig.h"
 #include "motion/MachineState.h"
 #include "motion/MotionEngine.h"
 #include "parser/GcodeParser.h"
+#include "simulator/SimulatorException.h"
 #include <iostream>
 
 int main()
@@ -8,7 +10,15 @@ int main()
     std::cout << "CNC Simulator v0.1.0\n";
     std::cout << "====================\n";
 
-    // parse gcode file
+    // load machine config
+    MachineConfig config;
+    if (!config.loadFromFile("config/machine.json"))
+    {
+        std::cerr << "Failed to load machine config!\n";
+        return 1;
+    }
+
+    // parse gcode
     GcodeParser parser;
     auto commands = parser.parseFile("tests/programs/square.gcode");
 
@@ -18,17 +28,25 @@ int main()
         return 1;
     }
 
-    // create machine state and motion engine
+    // run simulation
     MachineState state;
-    MotionEngine engine(state);
+    MotionEngine engine(state, config);
 
-    // execute every command
-    for (const auto &cmd : commands)
+    try
     {
-        engine.execute(cmd);
+        for (const auto &cmd : commands)
+        {
+            engine.execute(cmd);
+        }
+    }
+    catch (const MachineAlarmException &e)
+    {
+        std::cerr << "\n*** " << e.what() << " ***\n";
+        state.status = MachineStatus::ALARM;
+        return 1;
     }
 
-    // print summary
+    // summary
     std::cout << "\n=== Summary ===\n";
     std::cout << "Final position : X=" << state.position.x << " Y=" << state.position.y << " Z=" << state.position.z
               << "\n";
