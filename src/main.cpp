@@ -18,17 +18,17 @@ int main()
         return 1;
     }
 
-    // Create machine state and motion engine
+    // create machine state and motion engine
     MachineState state;
     MotionEngine engine(state);
 
-    // Execute every command
+    // execute every command
     for (const auto &cmd : commands)
     {
         engine.execute(cmd);
     }
 
-    // Print summary
+    // print summary
     std::cout << "\n=== Summary ===\n";
     std::cout << "Final position : X=" << state.position.x << " Y=" << state.position.y << " Z=" << state.position.z
               << "\n";
