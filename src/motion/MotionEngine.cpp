@@ -101,6 +101,8 @@ void MotionEngine::executeArc(const ArcMove &arc)
     std::cout << "[INFO] ArcMove → X:" << end.x << " Y:" << end.y << (arc.clockwise ? " (CW)\n" : " (CCW)\n");
 }
 
+/// @brief update spindle machine state
+/// @param cmd 
 void MotionEngine::executeSpindle(const SpindleCmd &cmd)
 {
     m_state.spindleOn = cmd.on;
@@ -109,6 +111,8 @@ void MotionEngine::executeSpindle(const SpindleCmd &cmd)
     std::cout << "[INFO] Spindle " << (cmd.on ? "ON" : "OFF") << " at " << cmd.rpm << " RPM\n";
 }
 
+/// @brief update dwell machine state
+/// @param cmd 
 void MotionEngine::executeDwell(const DwellCmd &cmd)
 {
     m_state.cycleTimeSeconds += cmd.seconds;
