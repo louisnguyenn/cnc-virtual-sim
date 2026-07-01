@@ -45,10 +45,12 @@ void MotionEngine::execute(const GCommand &cmd)
 /// @param move - type LinearMove
 void MotionEngine::executeLinear(const LinearMove &move)
 {
-    Vec3 target{move.x, move.y, move.z};
+    Vec3 end{move.x, move.y, move.z};
     Vec3 start{m_state.position};
 
-    auto points = interpolateLinear(start, target);
+    checkLimits(end);
+
+    auto points = interpolateLinear(start, end);
 
     // add points to tool path
     for (const auto &pt : points)
@@ -57,9 +59,9 @@ void MotionEngine::executeLinear(const LinearMove &move)
     }
 
     // update machine state
-    double distance = start.distanceTo(target);
+    double distance = start.distanceTo(end);
     m_state.totalDistance += distance;
-    m_state.position = target;
+    m_state.position = end;
     m_state.feedrate = move.feedrate;
 
     // calculate cycle time
@@ -68,7 +70,7 @@ void MotionEngine::executeLinear(const LinearMove &move)
         m_state.cycleTimeSeconds += (distance / move.feedrate) * 60.0;
     }
 
-    std::cout << "[INFO] LinearMove → X:" << target.x << " Y:" << target.y << " Z:" << target.z
+    std::cout << "[INFO] LinearMove → X:" << end.x << " Y:" << end.y << " Z:" << end.z
               << (move.rapid ? " (rapid)\n" : "\n");
 }
 
@@ -78,6 +80,8 @@ void MotionEngine::executeArc(const ArcMove &arc)
 {
     Vec3 start{m_state.position};
     Vec3 end{arc.x, arc.y, arc.z};
+
+    checkLimits(end);
 
     auto points = interpolateArc(start, end, arc.i, arc.j, arc.clockwise);
 
@@ -132,7 +136,7 @@ std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &
     std::vector<Vec3> points;
     double distance = from.distanceTo(to); // get distance
 
-    // if we're already at the target
+    // if we're already at the end
     if (distance < 1e-9)
     {
         points.push_back(to);
