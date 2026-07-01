@@ -56,4 +56,12 @@ template <typename T> class CommandQueue
         m_cv.notify_all();
     }
 
+    /// @brief check if queue is empty
+    /// @return bool (true is empty, false if not)
+    bool isEmpty() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        return m_queue.empty();
+    }
 };
