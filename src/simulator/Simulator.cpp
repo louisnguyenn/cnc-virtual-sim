@@ -29,7 +29,7 @@ const MachineState &Simulator::getState() const
 void Simulator::parserThread(const std::string &path, CommandQueue<GCommand> &queue)
 {
     GcodeParser parser;
-    auto commands{parser.parseFile(path)};
+    auto commands = parser.parseFile(path);
 
     // push every command onto the queue one by one
     for (auto &cmd : commands)
@@ -45,6 +45,31 @@ void Simulator::parserThread(const std::string &path, CommandQueue<GCommand> &qu
 /// @param queue
 void Simulator::simulatorThread(CommandQueue<GCommand> &queue)
 {
+    MotionEngine engine(m_state, m_config);
+
+    try
+    {
+        while (true)
+        {
+            // pop commands out of the queue
+            auto cmd = queue.pop();
+
+            // nullopt means queue is empty
+            if (!cmd.has_value())
+            {
+                break;
+            }
+
+            engine.execute(*cmd);
+        }
+    }
+    catch (const MachineAlarmException &e)
+    {
+        std::cerr << "\n*** " << e.what() << " ***\n";
+        m_state.status = MachineStatus::ALARM;
+    }
+
+    std::cout << "[Simulator] Finished executing commands\n";
 }
 
 /// @brief run a gcode file through the full pipeline
