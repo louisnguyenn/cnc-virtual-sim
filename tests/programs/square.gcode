@@ -1,10 +1,10 @@
 ; Simple square toolpath
 G90
-G0 X0 Y0 Z-200
+G0 X0 Y0 Z5
 G1 Z0 F100
 G1 X50 F300
 G1 Y50
 G1 X0
 G1 Y0
-G0 Z-150
+G0 Z5
 M30
