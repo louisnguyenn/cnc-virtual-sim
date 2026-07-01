@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 // constructor
-MotionEngine::MotionEngine(MachineState &state) : m_state(state)
+MotionEngine::MotionEngine(MachineState &state, const MachineConfig &config) : m_state(state), m_config(config)
 {
 }
 
@@ -102,7 +102,7 @@ void MotionEngine::executeArc(const ArcMove &arc)
 }
 
 /// @brief update spindle machine state
-/// @param cmd 
+/// @param cmd
 void MotionEngine::executeSpindle(const SpindleCmd &cmd)
 {
     m_state.spindleOn = cmd.on;
@@ -112,7 +112,7 @@ void MotionEngine::executeSpindle(const SpindleCmd &cmd)
 }
 
 /// @brief update dwell machine state
-/// @param cmd 
+/// @param cmd
 void MotionEngine::executeDwell(const DwellCmd &cmd)
 {
     m_state.cycleTimeSeconds += cmd.seconds;
@@ -201,4 +201,21 @@ std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &en
     }
 
     return points;
+}
+
+/// @brief check axis limits and throw exception
+/// @param pos
+void MotionEngine::checkLimits(const Vec3 &pos)
+{
+    if (pos.x < m_config.x.minMm || pos.x > m_config.x.maxMm)
+        throw MachineAlarmException("X overtravel at " + std::to_string(pos.x) + " (limits: " +
+                                    std::to_string(m_config.x.minMm) + " to " + std::to_string(m_config.x.maxMm) + ")");
+
+    if (pos.y < m_config.y.minMm || pos.y > m_config.y.maxMm)
+        throw MachineAlarmException("Y overtravel at " + std::to_string(pos.y) + " (limits: " +
+                                    std::to_string(m_config.y.minMm) + " to " + std::to_string(m_config.y.maxMm) + ")");
+
+    if (pos.z < m_config.z.minMm || pos.z > m_config.z.maxMm)
+        throw MachineAlarmException("Z overtravel at " + std::to_string(pos.z) + " (limits: " +
+                                    std::to_string(m_config.z.minMm) + " to " + std::to_string(m_config.z.maxMm) + ")");
 }
