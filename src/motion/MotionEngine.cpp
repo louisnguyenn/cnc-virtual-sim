@@ -123,7 +123,7 @@ void MotionEngine::executeDwell(const DwellCmd &cmd)
 /// @param to
 /// @param stepMm
 /// @return vector of points
-std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &to, double stepMm = 0.1)
+std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &to, double stepMm)
 {
     std::vector<Vec3> points;
     double distance = from.distanceTo(to); // get distance
@@ -151,7 +151,7 @@ std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &
 }
 
 std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &end, double i, double j, bool clockwise,
-                                               double stepDeg = 0.5)
+                                               double stepDeg)
 {
     std::vector<Vec3> points;
 
