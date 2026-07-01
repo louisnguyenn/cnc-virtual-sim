@@ -85,8 +85,37 @@ void MotionEngine::executeDwell(const DwellCmd &cmd)
 }
 
 // interpolation methods
+
+/// @brief create dotted points from point 1 to point 2. stepMm tell us how fine each points are from eachother
+/// @param from
+/// @param to
+/// @param stepMm
+/// @return vector of points
 std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &to, double stepMm = 0.1)
 {
+    std::vector<Vec3> points;
+    double distance = from.distanceTo(to); // get distance
+
+    // if we're already at the target
+    if (distance < 1e-9)
+    {
+        points.push_back(to);
+        return points;
+    }
+
+    // calculate steps
+    // e.g. dist=50mm, stepMm=0.1 → 500 steps
+    int steps = std::max(1, static_cast<int>(distance / stepMm));
+
+    // record each position 't' from start to finish
+    // use linear interpolation (lerp) formula
+    for (int i{0}; i <= steps; ++i)
+    {
+        double t = static_cast<double>(i) / steps;
+        points.push_back(from + (to - from) *t);
+    }
+
+    return points;
 }
 
 std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &end, double i, double j, bool clockwise,
