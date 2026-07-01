@@ -146,4 +146,48 @@ std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &
 std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &end, double i, double j, bool clockwise,
                                                double stepDeg = 0.5)
 {
+    std::vector<Vec3> points;
+
+    // centre of the arc = start position * (i, j)
+    // i and j are the distance from the start point to the centre
+    Vec3 centre{start.x + i, start.y + j, start.z};
+
+    // radius
+    double r{std::hypot(i, j)};
+
+    // angle from centre to start point
+    double a0{std::atan2(start.y - centre.y, start.x - centre.x)};
+
+    // angle from centre to end point
+    double a1{std::atan2(end.y - centre.y, end.x - centre.x)};
+
+    // rotation - cw means angle decrease, ccw means angle increase
+    if (clockwise && a1 > a0)
+    {
+        a1 -= 2.0 * M_PI;
+    }
+    if (!clockwise && a1 < a0)
+    {
+        a1 += 2.0 * M_PI;
+    }
+
+    double stepRag = stepDeg * M_PI / 180.0; // convert to radians
+
+    // calculate how many steps to cover the full arc angle
+    int steps{std::max(1, static_cast<int>(std::abs(a1 - a0) / stepRag))};
+
+    for (int s{0}; s <= steps; ++s)
+    {
+        double t = static_cast<double>(s) / steps;
+        double a = a0 + (a1 - a0) * t;
+
+        /*
+        convert polar to cartesian form using formula:
+        X = radius * cos(angle)
+        Y = radius * sin(angle)*/
+        // push x and y points on the circle. z stays the same
+        points.push_back({centre.x + r * std::cos(a), centre.y + r * std::sin(a), start.z});
+    }
+
+    return points;
 }
