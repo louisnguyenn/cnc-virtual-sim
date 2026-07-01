@@ -4,17 +4,16 @@
 
 int main(int argc, char *argv[])
 {
+    std::cout << "CNC Simulator v0.1.0\n";
+    std::cout << "====================\n";
+
     // default paths
     std::string configPath = "config/machine.json";
     std::string gcodePath = "tests/programs/square.gcode";
 
+    // allow passing a gcode file as argument
     if (argc > 1)
-    {
         gcodePath = argv[1];
-    }
-
-    std::cout << "CNC Simulator v0.1.0\n";
-    std::cout << "====================\n";
 
     try
     {
@@ -29,10 +28,9 @@ int main(int argc, char *argv[])
         std::cout << "Total distance : " << state.totalDistance << "mm\n";
         std::cout << "Cycle time     : " << state.cycleTimeSeconds << "s\n";
     }
-    catch (const MachineAlarmException &e)
+    catch (const SimulatorException &e)
     {
-        std::cerr << "Fatal error: " << e.what() << '\n';
-
+        std::cerr << "Fatal error: " << e.what() << "\n";
         return 1;
     }
 
