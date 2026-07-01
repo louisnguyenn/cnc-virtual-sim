@@ -206,9 +206,9 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
     std::vector<GCommand> commands;
     std::string line;
 
-    // try to open file
+    // open file
     std::ifstream file(path);
-    // std::ifstream file("tests/programs/square.gcode"); // for testing
+    
     if (!file.is_open())
     {
         std::cerr << "Error: could not open file " << path << '\n';
