@@ -20,7 +20,7 @@ FetchContent_Declare(googletest
 FetchContent_MakeAvailable(googletest)
 
 # Main executable
-add_executable(cnc_simulator
+add_executable(cnc_sim
     src/main.cpp
     src/parser/GcodeParser.cpp
     src/motion/MotionEngine.cpp
