@@ -26,6 +26,11 @@ class GcodeParser
     bool m_absoluteMode{true}; // G90 = true, G91 = false
     double m_currentFeedrate{0.0};
 
+    // position tracking
+    double m_currentX{0.0};
+    double m_currentY{0.0};
+    double m_currentZ{0.0};
+
     // helper functions
     std::string stripComment(const std::string &line);
     std::unordered_map<char, double> tokenise(const std::string &line);
