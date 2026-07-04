@@ -29,7 +29,7 @@ void Logger::writeToCSV(const std::string &path) const
 
         csv_file << ms; // write timestamp
 
-        csv_file << record.pos.x << ',' << record.pos.y << ',' << record.pos.z; // write position
+        csv_file << record.pos.x << ',' << record.pos.y << ',' << record.pos.z << ','; // write position
 
         csv_file << record.feedrate << ','; // write feedrate
 
