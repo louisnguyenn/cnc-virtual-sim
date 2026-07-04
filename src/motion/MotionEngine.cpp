@@ -3,8 +3,31 @@
 #include <iostream>
 #include <stdexcept>
 
+/// @brief machine status to string type conversion
+/// @param status
+/// @return string
+static std::string statusToString(MachineStatus status)
+{
+    switch (status)
+    {
+    case MachineStatus::IDLE:
+        return "IDLE";
+    case MachineStatus::HOLD:
+        return "HOLD";
+    case MachineStatus::ALARM:
+        return "ALARM";
+    case MachineStatus::RUNNING:
+        return "RUNNING";
+    case MachineStatus::FINISHED:
+        return "FINISHED";
+    default:
+        return "UNKNOWN";
+    }
+}
+
 // constructor
-MotionEngine::MotionEngine(MachineState &state, const MachineConfig &config) : m_state(state), m_config(config)
+MotionEngine::MotionEngine(MachineState &state, const MachineConfig &config, Logger &logger)
+    : m_state(state), m_config(config), m_logger(logger)
 {
 }
 
@@ -72,6 +95,9 @@ void MotionEngine::executeLinear(const LinearMove &move)
 
     std::cout << "[INFO] LinearMove → X:" << end.x << " Y:" << end.y << " Z:" << end.z
               << (move.rapid ? " (rapid)\n" : "\n");
+
+    m_logger.log(m_state.position, m_state.feedrate, m_state.status);
+    m_logger.printStatus(m_state.status);
 }
 
 /// @brief execute arc move
