@@ -29,3 +29,11 @@ class ParseException : public SimulatorException
     }
 };
 
+// config exception
+class ConfigException : public SimulatorException
+{
+  public:
+    explicit ConfigException(const std::string &msg) : SimulatorException("Config error: " + msg)
+    {
+    }
+};
