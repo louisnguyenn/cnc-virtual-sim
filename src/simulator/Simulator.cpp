@@ -96,6 +96,7 @@ void Simulator::run(const std::string &gcodePath)
         m_state.status = MachineStatus::FINISHED;
     }
 
+    m_logger.writeToCSV("toolpath.csv");
 
     std::cout << "[INFO] Simulation complete\n";
 }
