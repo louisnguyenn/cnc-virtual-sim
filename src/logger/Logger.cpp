@@ -47,8 +47,10 @@ void Logger::printStatus(const Vec3 &pos, double feedrate, const std::string &st
 
 void Logger::printSummary(const MachineState &state) const
 {
+
 }
 
 int Logger::recordCount() const
 {
+    return m_records.size();
 }
