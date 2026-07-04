@@ -1,4 +1,5 @@
 #include "parser/GcodeParser.h"
+#include "simulator/SimulatorException.h"
 #include <algorithm>
 #include <cctype>
 #include <fstream>
@@ -219,8 +220,7 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
 
     if (!file.is_open())
     {
-        std::cerr << "Error: could not open file " << path << '\n';
-        return {}; // return empty vector
+        throw ParseException("Error: could not open file " + path);
     }
 
     while (std::getline(file, line))
