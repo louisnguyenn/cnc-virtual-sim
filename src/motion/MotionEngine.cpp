@@ -129,6 +129,9 @@ void MotionEngine::executeArc(const ArcMove &arc)
     }
 
     std::cout << "[INFO] ArcMove → X:" << end.x << " Y:" << end.y << (arc.clockwise ? " (CW)\n" : " (CCW)\n");
+
+    m_logger.log(m_state.position, m_state.feedrate, statusToString(m_state.status));
+    m_logger.printStatus(m_state.position, m_state.feedrate, statusToString(m_state.status));
 }
 
 /// @brief update spindle machine state
