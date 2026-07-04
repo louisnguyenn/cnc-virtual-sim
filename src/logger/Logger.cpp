@@ -29,7 +29,6 @@ void Logger::writeToCSV(const std::string &path) const
 
         csv_file << ms << ','; // write timestamp
 
-        // TODO - y position is not writing to csv file
         csv_file << record.pos.x << ',' << record.pos.y << ',' << record.pos.z << ','; // write position
         // std::cout << "X POS: " << record.pos.x << '\n';
         // std::cout << "Y POS: " << record.pos.y << '\n';
