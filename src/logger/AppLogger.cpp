@@ -10,9 +10,14 @@ void AppLogger::log(LogLevel level, const std::string &msg)
         return;
     }
 
-    std::cout << '[' << timestamp() << "] " << '[';
-    std::cout << levelToString(level);
-    std::cout << "] " << msg;
+    std::string out = "[" + timestamp() + "] [" + levelToString(level) + "] " + msg + "\n";
+
+    std::cout << out;
+
+    if (m_file.is_open())
+    {
+        m_file << out; // write to file
+    }
 }
 
 std::string AppLogger::levelToString(LogLevel level) const
