@@ -19,3 +19,13 @@ class MachineAlarmException : public SimulatorException
     {
     }
 };
+
+// parsing exception
+class ParseException : public SimulatorException
+{
+  public:
+    explicit ParseException(const std::string &msg) : SimulatorException("Parse error: " + msg)
+    {
+    }
+};
+
