@@ -41,13 +41,19 @@ void Logger::writeToCSV(const std::string &path) const
 
 void Logger::printStatus(const Vec3 &pos, double feedrate, const std::string &status) const
 {
-    std::cout << "\r[RUNNING] X:" << pos.x << " Y:" << pos.y << " Z:" << pos.z << " F:" << feedrate
-              << "    " << std::flush;
+    std::cout << "\r[RUNNING] X:" << pos.x << " Y:" << pos.y << " Z:" << pos.z << " F:" << feedrate << "    "
+              << std::flush;
 }
 
 void Logger::printSummary(const MachineState &state) const
 {
-
+    std::cout << "\n========= SUMMARY =========\n";
+    std::cout << "Final position  : X=" << state.position.x << " Y=" << state.position.y << " Z=" << state.position.z
+              << "\n";
+    std::cout << "Total distance  : " << state.totalDistance << "mm\n";
+    std::cout << "Cycle time      : " << state.cycleTimeSeconds << "s\n";
+    std::cout << "Records logged  : " << recordCount() << "\n";
+    std::cout << "===========================\n";
 }
 
 int Logger::recordCount() const
