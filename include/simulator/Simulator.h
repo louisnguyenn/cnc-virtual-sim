@@ -1,5 +1,6 @@
 #pragma once
 #include "CommandQueue.h"
+#include "logger/Logger.h"
 #include "motion/MachineConfig.h"
 #include "motion/MachineState.h"
 #include "motion/MotionEngine.h"
@@ -14,6 +15,7 @@ class Simulator
   private:
     MachineConfig m_config;
     MachineState m_state;
+    Logger m_logger;
 
     // parser thread function
     void parserThread(const std::string &path, CommandQueue<GCommand> &queue);
@@ -22,7 +24,7 @@ class Simulator
     void simulatorThread(CommandQueue<GCommand> &queue);
 
   public:
-    explicit Simulator(const std::string &configPath);
+    explicit Simulator(const std::string &configPath, Logger &logger);
 
     // run a gcode file through the full pipeline
     void run(const std::string &gcodePath);
@@ -30,4 +32,5 @@ class Simulator
     // getters for config and state
     const MachineConfig &getConfig() const;
     const MachineState &getState() const;
+    const Logger &getLogger() const;
 };
