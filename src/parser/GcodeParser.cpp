@@ -76,9 +76,9 @@ std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordere
     {
         LinearMove lin_move;
 
-        lin_move.x = get('X', words);
-        lin_move.y = get('Y', words);
-        lin_move.z = get('Z', words);
+        lin_move.x = words.count('X') ? get('X', words) : m_currentX;
+        lin_move.y = words.count('Y') ? get('Y', words) : m_currentY;
+        lin_move.z = words.count('Z') ? get('Z', words) : m_currentZ;
         lin_move.feedrate = feedrate;
 
         // G0 = true (fast), G1 = false (controlled)
@@ -91,6 +91,10 @@ std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordere
             lin_move.rapid = false;
         }
 
+        m_currentX = lin_move.x;
+        m_currentY = lin_move.y;
+        m_currentZ = lin_move.z;
+
         return lin_move;
     }
 
@@ -102,9 +106,9 @@ std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordere
     {
         ArcMove arc;
 
-        arc.x = get('X', words);
-        arc.y = get('Y', words);
-        arc.z = get('Z', words);
+        arc.x = words.count('X') ? get('X', words) : m_currentX;
+        arc.y = words.count('Y') ? get('Y', words) : m_currentY;
+        arc.z = words.count('Z') ? get('Z', words) : m_currentZ;
         arc.i = get('I', words);
         arc.j = get('J', words);
         arc.k = get('K', words);
@@ -119,6 +123,10 @@ std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordere
         {
             arc.clockwise = false;
         }
+
+        m_currentX = arc.x;
+        m_currentY = arc.y;
+        m_currentZ = arc.z;
 
         return arc;
     }
@@ -226,6 +234,6 @@ std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
     }
 
     std::cout << "Parsed " << commands.size() << " commands from " << path << '\n';
-    
+
     return commands;
 }
