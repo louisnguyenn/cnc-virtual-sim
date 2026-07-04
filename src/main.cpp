@@ -21,14 +21,6 @@ int main(int argc, char *argv[])
         sim.run(gcodePath);
         sim.getLogger().printSummary(sim.getState());
         std::cout << "Toolpath saved to toolpath.csv\n";
-
-        // print summary
-        const auto &state = sim.getState();
-        std::cout << "\n=== Summary ===\n";
-        std::cout << "Final position : X=" << state.position.x << " Y=" << state.position.y << " Z=" << state.position.z
-                  << "\n";
-        std::cout << "Total distance : " << state.totalDistance << "mm\n";
-        std::cout << "Cycle time     : " << state.cycleTimeSeconds << "s\n";
     }
     catch (const SimulatorException &e)
     {
