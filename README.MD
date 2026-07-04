@@ -9,7 +9,7 @@ The CNC Virtual Simulator parses industry-standard G-code programs and simulates
 ## Demo
 
 ### Toolpath Plot
-![Toolpath](assets/toolpath.png)
+![Toolpath](assets/demo.png)
 
 ### Terminal Output
 ![Terminal Output](assets/output.png)
