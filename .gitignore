@@ -22,3 +22,7 @@ _deps/
 
 # macOS
 .DS_Store
+
+# csv and png
+*.csv
+*.png
