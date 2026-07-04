@@ -96,8 +96,8 @@ void MotionEngine::executeLinear(const LinearMove &move)
     std::cout << "[INFO] LinearMove → X:" << end.x << " Y:" << end.y << " Z:" << end.z
               << (move.rapid ? " (rapid)\n" : "\n");
 
-    m_logger.log(m_state.position, m_state.feedrate, m_state.status);
-    m_logger.printStatus(m_state.status);
+    m_logger.log(m_state.position, m_state.feedrate, statusToString(m_state.status));
+    m_logger.printStatus(m_state.position, m_state.feedrate, statusToString(m_state.status));
 }
 
 /// @brief execute arc move
