@@ -23,6 +23,11 @@ const MachineState &Simulator::getState() const
     return m_state;
 }
 
+const Logger &Simulator::getLogger() const
+{
+    return m_logger;
+}
+
 /// @brief parser thread function
 /// @param path
 /// @param queue
