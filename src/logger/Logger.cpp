@@ -31,7 +31,7 @@ void Logger::writeToCSV(const std::string &path) const
 
         csv_file << record.pos.x << ',' << record.pos.y << ',' << record.pos.z; // write position
 
-        csv_file << record.feedrate; // write feedrate
+        csv_file << record.feedrate << ','; // write feedrate
 
         csv_file << record.machineStatus << '\n'; // write machine status
     }
