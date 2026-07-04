@@ -1,4 +1,6 @@
 #include "logger/AppLogger.h"
+#include <chrono>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 
@@ -39,6 +41,13 @@ std::string AppLogger::levelToString(LogLevel level) const
 
 std::string AppLogger::timestamp() const
 {
+    auto now = std::chrono::system_clock::now();
+
+    std::time_t t = std::chrono::system_clock::to_time_t(now);
+    std::string ts = std::ctime(&t); // formatting to string
+    ts.pop_back();                   // remove trailing newline char
+
+    return ts;
 }
 
 // public
