@@ -27,11 +27,16 @@ void Logger::writeToCSV(const std::string &path) const
     {
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(record.timestamp - m_startTime).count();
 
-        csv_file << ms; // write timestamp
+        csv_file << ms << ','; // write timestamp
 
+        // TODO - y position is not writing to csv file
         csv_file << record.pos.x << ',' << record.pos.y << ',' << record.pos.z << ','; // write position
+        // std::cout << "X POS: " << record.pos.x << '\n';
+        // std::cout << "Y POS: " << record.pos.y << '\n';
+        // std::cout << "Z POS: " << record.pos.z << '\n';
 
         csv_file << record.feedrate << ','; // write feedrate
+        // std::cout << "FEEDRATE: " << record.feedrate << '\n';
 
         csv_file << record.machineStatus << '\n'; // write machine status
     }
