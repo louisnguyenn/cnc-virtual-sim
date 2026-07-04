@@ -43,10 +43,10 @@ void Logger::writeToCSV(const std::string &path) const
     csv_file.close();
 }
 
-void Logger::printStatus(const Vec3 &pos, double feedrate) const
+void Logger::printStatus(const Vec3 &pos, double feedrate, const std::string &status) const
 {
-    std::cout << "\r[RUNNING] X:" << pos.x << " Y:" << pos.y << " Z:" << pos.z << " F:" << feedrate << "          "
-              << std::flush;
+    std::cout << "\r[" << status << "] X:" << pos.x << " Y:" << pos.y << " Z:" << pos.z << " F:" << feedrate
+              << "          " << std::flush;
 }
 
 void Logger::printSummary(const MachineState &state) const
