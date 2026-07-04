@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
     {
         Simulator sim(configPath);
         sim.run(gcodePath);
+        sim.getLogger().printSummary(sim.getState());
+        std::cout << "Toolpath saved to toolpath.csv\n";
 
         // print summary
         const auto &state = sim.getState();
