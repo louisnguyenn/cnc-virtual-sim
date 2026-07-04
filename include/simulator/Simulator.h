@@ -24,7 +24,7 @@ class Simulator
     void simulatorThread(CommandQueue<GCommand> &queue);
 
   public:
-    explicit Simulator(const std::string &configPath, Logger &logger);
+    explicit Simulator(const std::string &configPath);
 
     // run a gcode file through the full pipeline
     void run(const std::string &gcodePath);

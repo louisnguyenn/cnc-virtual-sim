@@ -45,7 +45,7 @@ void Simulator::parserThread(const std::string &path, CommandQueue<GCommand> &qu
 /// @param queue
 void Simulator::simulatorThread(CommandQueue<GCommand> &queue)
 {
-    MotionEngine engine(m_state, m_config);
+    MotionEngine engine(m_state, m_config, m_logger);
 
     try
     {
@@ -95,6 +95,7 @@ void Simulator::run(const std::string &gcodePath)
     {
         m_state.status = MachineStatus::FINISHED;
     }
+
 
     std::cout << "[INFO] Simulation complete\n";
 }
