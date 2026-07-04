@@ -1,4 +1,5 @@
 #include "motion/MachineConfig.h"
+#include "simulator/SimulatorException.h"
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -9,8 +10,7 @@ bool MachineConfig::loadFromFile(const std::string &path)
     std::ifstream file(path);
     if (!file.is_open())
     {
-        std::cerr << "Error: could not config_file file " << path << '\n';
-        return false;
+        throw ConfigException("Error: could not open config file " + path);
     }
 
     // parse json file
@@ -21,8 +21,7 @@ bool MachineConfig::loadFromFile(const std::string &path)
     }
     catch (const nlohmann::json::parse_error &e)
     {
-        std::cerr << "Error: failed to parse config_file: " << e.what() << '\n';
-        return false;
+        throw ConfigException("Error: failed to parse config file: " + std::string(e.what()));
     }
 
     // load values from json into axis config and machine config structs
