@@ -1,4 +1,5 @@
 #include "motion/MotionEngine.h"
+#include "helper/Helper.h"
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
