@@ -2,6 +2,7 @@
 #include "MachineConfig.h"
 #include "MachineState.h"
 #include "Vec3.h"
+#include "logger/Logger.h"
 #include "parser/GCommand.h"
 #include "simulator/SimulatorException.h"
 #include <vector>
@@ -12,6 +13,7 @@ class MotionEngine
     MachineState &m_state;        // machine state
     std::vector<Vec3> m_toolpath; // tool position
     const MachineConfig &m_config;
+    Logger &m_logger; // logger
 
     void executeLinear(const LinearMove &move);
     void executeArc(const ArcMove &arc);
@@ -26,7 +28,7 @@ class MotionEngine
                                      double stepDeg = 0.5);
 
   public:
-    explicit MotionEngine(MachineState &state, const MachineConfig &config);
+    explicit MotionEngine(MachineState &state, const MachineConfig &config, Logger &logger);
 
     void setState(MachineStatus state)
     {
