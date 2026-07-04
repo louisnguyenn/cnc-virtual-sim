@@ -23,6 +23,7 @@ _deps/
 # macOS
 .DS_Store
 
-# csv and png
-*.csv
+# ignore generated PNGs but keep assets for README
 *.png
+*.csv
+!assets/*.png
