@@ -56,11 +56,16 @@ void AppLogger::setLevel(LogLevel level)
     m_level = level;
 }
 
+/// @brief opens the file for the lifetime of the logger
+/// @param path 
 void AppLogger::setFile(const std::string &path)
 {
-    std::ofstream file(path);
+    m_file.open(path);
 
-    file.close();
+    if (!m_file.is_open())
+    {
+        std::cerr << "AppLogger: could not open log file: " << path << '\n';
+    }
 }
 
 void AppLogger::debug(const std::string &msg)
