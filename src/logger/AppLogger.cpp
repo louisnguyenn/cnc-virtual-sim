@@ -57,7 +57,7 @@ void AppLogger::setLevel(LogLevel level)
 }
 
 /// @brief opens the file for the lifetime of the logger
-/// @param path 
+/// @param path
 void AppLogger::setFile(const std::string &path)
 {
     m_file.open(path);
@@ -70,16 +70,20 @@ void AppLogger::setFile(const std::string &path)
 
 void AppLogger::debug(const std::string &msg)
 {
+    log(LogLevel::DEBUG, msg);
 }
 
 void AppLogger::info(const std::string &msg)
 {
+    log(LogLevel::INFO, msg);
 }
 
 void AppLogger::warn(const std::string &msg)
 {
+    log(LogLevel::WARN, msg);
 }
 
 void AppLogger::error(const std::string &msg)
 {
+    log(LogLevel::ERROR, msg);
 }
