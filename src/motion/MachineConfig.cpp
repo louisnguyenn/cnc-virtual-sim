@@ -10,7 +10,7 @@ bool MachineConfig::loadFromFile(const std::string &path)
     std::ifstream file(path);
     if (!file.is_open())
     {
-        throw ConfigException("Error: could not open config file " + path);
+        throw ConfigException("could not open config file " + path);
     }
 
     // parse json file
@@ -21,7 +21,7 @@ bool MachineConfig::loadFromFile(const std::string &path)
     }
     catch (const nlohmann::json::parse_error &e)
     {
-        throw ConfigException("Error: failed to parse config file: " + std::string(e.what()));
+        throw ConfigException("failed to parse config file: " + std::string(e.what()));
     }
 
     // load values from json into axis config and machine config structs
