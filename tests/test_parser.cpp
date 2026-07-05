@@ -136,7 +136,7 @@ TEST(ParserTest, G90G91DoNotReturnCommand)
     EXPECT_FALSE(cmd91.has_value());
 }
 
-// ── File Parsing Test ──────────────────────────────────────────────
+// ── File Parsing Test for Square ──────────────────────────────────────────────
 
 TEST(ParserTest, ParsesSquareGcodeFile)
 {
@@ -151,4 +151,28 @@ TEST(ParserTest, ParsesSquareGcodeFile)
     EXPECT_TRUE(first.rapid);
     // Last command should be program end
     EXPECT_TRUE(std::holds_alternative<ProgramEnd>(cmds.back()));
+}
+
+// ── File Parsing Test for Circle ──────────────────────────────────────────────
+
+TEST(ParserTest, ParsesCircleGcodeFile)
+{
+    GcodeParser parser;
+    auto cmds = parser.parseFile("../tests/programs/circle.gcode");
+    // expected 4 commands
+    EXPECT_EQ(cmds.size(), 4);
+    // first command should be rapid linear move
+    EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[0]));
+    auto &first = std::get<LinearMove>(cmds[0]);
+    EXPECT_TRUE(first.rapid); // should be true
+    // second command should be a linear move
+    EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[1]));
+    auto &second = std::get<LinearMove>(cmds[1]);
+    EXPECT_FALSE(second.rapid);
+    // third command should be a clockwise arc
+    EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[2]));
+    auto &third = std::get<ArcMove>(cmds[2]);
+    EXPECT_TRUE(third.clockwise);
+    // last command should be program end
+    EXPECT_TRUE(std::holds_alternative<ProgramEnd>(cmds[3]));
 }
