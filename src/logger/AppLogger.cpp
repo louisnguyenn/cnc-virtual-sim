@@ -68,6 +68,13 @@ void AppLogger::setFile(const std::string &path)
     }
 }
 
+AppLogger &AppLogger::get()
+{
+    static AppLogger instance;
+
+    return instance;
+}
+
 void AppLogger::debug(const std::string &msg)
 {
     log(LogLevel::DEBUG, msg);
