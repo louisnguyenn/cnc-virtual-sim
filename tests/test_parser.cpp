@@ -142,7 +142,7 @@ TEST(ParserTest, ParsesSquareGcodeFile)
 {
     GcodeParser parser;
     // Adjust path if needed depending on where you run tests from
-    auto cmds = parser.parseFile("../tests/programs/square.gcode");
+    auto cmds = parser.parseFile("tests/programs/square.gcode");
     // square.gcode has 7 motion commands (G0, G1x5, G0) + M30 = 8 total
     EXPECT_EQ(cmds.size(), 8);
     // First command should be a rapid move (G0)
@@ -158,9 +158,9 @@ TEST(ParserTest, ParsesSquareGcodeFile)
 TEST(ParserTest, ParsesCircleGcodeFile)
 {
     GcodeParser parser;
-    auto cmds = parser.parseFile("../tests/programs/circle.gcode");
+    auto cmds = parser.parseFile("tests/programs/circle.gcode");
     // expected 4 commands
-    EXPECT_EQ(cmds.size(), 4);
+    EXPECT_EQ(cmds.size(), 5);
     // first command should be rapid linear move
     EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[0]));
     auto &first = std::get<LinearMove>(cmds[0]);
@@ -170,9 +170,9 @@ TEST(ParserTest, ParsesCircleGcodeFile)
     auto &second = std::get<LinearMove>(cmds[1]);
     EXPECT_FALSE(second.rapid);
     // third command should be a clockwise arc
-    EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[2]));
+    EXPECT_TRUE(std::holds_alternative<ArcMove>(cmds[2]));
     auto &third = std::get<ArcMove>(cmds[2]);
     EXPECT_TRUE(third.clockwise);
     // last command should be program end
-    EXPECT_TRUE(std::holds_alternative<ProgramEnd>(cmds[3]));
+    EXPECT_TRUE(std::holds_alternative<ProgramEnd>(cmds[4]));
 }

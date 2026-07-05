@@ -12,8 +12,7 @@ target_include_directories(cnc_tests PRIVATE
 )
 
 target_sources(cnc_tests PRIVATE
-    ${PROJECT_SOURCE_DIR}/src/parser/GcodeParser.cpp
-)
+    ${PROJECT_SOURCE_DIR}/src/parser/GcodeParser.cpp)
 
 include(GoogleTest)
 gtest_add_tests(TARGET cnc_tests)
