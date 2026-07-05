@@ -27,3 +27,4 @@ _deps/
 *.png
 *.csv
 !assets/*.png
+*.log
