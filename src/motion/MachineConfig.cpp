@@ -10,7 +10,7 @@ bool MachineConfig::loadFromFile(const std::string &path)
     std::ifstream file(path);
     if (!file.is_open())
     {
-        throw ConfigException("could not open config file " + path);
+        throw ConfigException("could not open config file: " + path);
     }
 
     // parse json file
