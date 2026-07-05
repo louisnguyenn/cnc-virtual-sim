@@ -27,6 +27,8 @@ add_executable(cnc_simulator
     src/simulator/Simulator.cpp
     src/logger/Logger.cpp
     src/motion/MachineConfig.cpp
+    src/logger/AppLogger.cpp
+    src/simulator/AppConfig.cpp
 )
 
 target_include_directories(cnc_simulator PRIVATE include)
