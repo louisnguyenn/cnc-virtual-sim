@@ -176,3 +176,13 @@ TEST(ParserTest, ParsesCircleGcodeFile)
     // last command should be program end
     EXPECT_TRUE(std::holds_alternative<ProgramEnd>(cmds[4]));
 }
+
+// ── Parsing Dwell Command ──────────────────────────────────────────────
+TEST(ParserTest, DwellCommand)
+{
+    GcodeParser parser;
+    auto cmd = parser.parseLine("G4 P2.5"); // parse line
+    ASSERT_TRUE(cmd.has_value());
+    auto &dwell = std::get<DwellCmd>(*cmd);
+    EXPECT_DOUBLE_EQ(dwell.seconds, 2.5); // check number of seconds
+}
