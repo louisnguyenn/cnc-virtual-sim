@@ -10,11 +10,12 @@ static AppConfig parse(int argc, char *argv[])
     {
         if (argv[i] == "--config")
         {
-
+            app.configPath = argv[i];
         }
 
         if (argv[i] == "--input")
         {
+            app.inputPath = argv[i];
         }
 
         if (argv[i] == "--verbose")
@@ -42,4 +43,7 @@ static AppConfig parse(int argc, char *argv[])
 // print usage instructions
 static void printUsage()
 {
+    std::cout << "Usage: cnc_simulator [options]\nOptions:\n\t--config <path>\tPath to machine config JSON (default: "
+                 "config/machine.json)\n\t--input <path>\tPath to G-code file (default: "
+                 "tests/programs/square.gcode)\n\t--verbose\tEnable debug logging\n--help\tShow this message";
 }
