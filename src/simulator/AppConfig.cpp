@@ -1,5 +1,6 @@
 #include "simulator/AppConfig.h"
 #include <iostream>
+#include <cstring>
 
 // parse from argc/argv
 AppConfig AppConfig::parse(int argc, char *argv[])
@@ -8,22 +9,22 @@ AppConfig AppConfig::parse(int argc, char *argv[])
 
     for (auto i{1}; i < argc - 1; ++i)
     {
-        if (argv[i] == "--config")
+        if (strcmp(argv[i],"--config"))
         {
             app.configPath = argv[i];
         }
 
-        if (argv[i] == "--input")
+        if (strcmp(argv[i],"--input"))
         {
             app.inputPath = argv[i];
         }
 
-        if (argv[i] == "--verbose")
+        if (strcmp(argv[i],"--verbose"))
         {
             app.verbose = true;
         }
 
-        if (argv[i] == "--help")
+        if (strcmp(argv[i],"--help"))
         {
             printUsage();
 
