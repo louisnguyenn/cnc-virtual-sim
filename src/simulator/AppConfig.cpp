@@ -1,39 +1,34 @@
 #include "simulator/AppConfig.h"
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 // parse from argc/argv
 AppConfig AppConfig::parse(int argc, char *argv[])
 {
     AppConfig app;
 
-    for (auto i{1}; i < argc - 1; ++i)
+    for (auto i{1}; i < argc; ++i)
     {
-        if (strcmp(argv[i],"--config"))
+        if (std::string(argv[i]) == "--config")
         {
-            app.configPath = argv[i];
+            app.configPath = argv[++i];
         }
-
-        if (strcmp(argv[i],"--input"))
+        else if (std::string(argv[i]) == "--input")
         {
-            app.inputPath = argv[i];
+            app.inputPath = argv[++i];
         }
-
-        if (strcmp(argv[i],"--verbose"))
+        else if (std::string(argv[i]) == "--verbose")
         {
             app.verbose = true;
         }
-
-        if (strcmp(argv[i],"--help"))
+        else if (std::string(argv[i]) == "--help")
         {
             printUsage();
-
             app.valid = false;
         }
         else
         {
-            std::cerr << "Error: unknown argument " << argv[i] << '\n';
-
+            std::cerr << "Unknown argument: " << argv[i] << "\n";
             app.valid = false;
         }
     }
@@ -46,5 +41,5 @@ void AppConfig::printUsage()
 {
     std::cout << "Usage: cnc_simulator [options]\nOptions:\n\t--config <path>\tPath to machine config JSON (default: "
                  "config/machine.json)\n\t--input <path>\tPath to G-code file (default: "
-                 "tests/programs/square.gcode)\n\t--verbose\tEnable debug logging\n--help\tShow this message";
+                 "tests/programs/square.gcode)\n\t--verbose\tEnable debug logging\n\t--help\tShow this message\n";
 }
