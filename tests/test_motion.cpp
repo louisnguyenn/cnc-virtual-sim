@@ -33,10 +33,21 @@ TEST(MotionTest, LinearInterpolationPointCount)
 
 TEST(MotionTest, MachinePositionUpdated)
 {
-    //  set up state, config, logger, engine same as above
-    // create a LinearMove to X:50 Y:30 Z:0
-    // execute it
-    // fill in the two expectations
+    MachineState state;
+    MachineConfig config = makeTestConfig();
+    Logger logger;
+    MotionEngine engine(state, config, logger);
+
+    LinearMove move;
+    move.x = 50.0;
+    move.y = 30.0;
+    move.z = 0.0;
+
+    engine.execute(move);
+
+    // check if machine is at the position
+    EXPECT_DOUBLE_EQ(state.position.x, 50.0);
+    EXPECT_DOUBLE_EQ(state.position.y, 30.0);
 }
 
 TEST(MotionTest, OvertravelThrowsAlarm)
