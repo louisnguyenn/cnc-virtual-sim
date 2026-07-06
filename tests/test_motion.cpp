@@ -52,10 +52,18 @@ TEST(MotionTest, MachinePositionUpdated)
 
 TEST(MotionTest, OvertravelThrowsAlarm)
 {
-    // set up state, config, logger, engine
-    // create a LinearMove to X:9999
-    // hint:
-    // EXPECT_THROW(engine.execute(move), MachineAlarmException);
+    MachineState state;
+    MachineConfig config = makeTestConfig();
+    Logger logger;
+    MotionEngine engine(state, config, logger);
+
+    LinearMove move;
+    move.x = 9999;
+    move.y = 0.0;
+    move.z = 0.0;
+
+    // throw the correct exception
+    EXPECT_THROW(engine.execute(move), MachineAlarmException);
 }
 
 TEST(MotionTest, CycleTimeIncreases)
