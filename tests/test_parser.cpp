@@ -186,3 +186,11 @@ TEST(ParserTest, DwellCommand)
     auto &dwell = std::get<DwellCmd>(*cmd);
     EXPECT_DOUBLE_EQ(dwell.seconds, 2.5); // check number of seconds
 }
+
+// ── Unknown G-code returns empty ──────────────────────────────────────────────
+TEST(ParserTest, UnknownGcodeReturnsEmpty)
+{
+    GcodeParser parser;
+    auto cmd = parser.parseLine("G99 X10");
+    EXPECT_FALSE(cmd.has_value());
+}
