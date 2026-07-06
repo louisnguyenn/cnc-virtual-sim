@@ -1,5 +1,6 @@
 add_executable(cnc_tests
     test_parser.cpp
+    test_motion.cpp
 )
 
 target_link_libraries(cnc_tests PRIVATE
