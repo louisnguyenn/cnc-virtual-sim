@@ -42,6 +42,8 @@ TEST(MotionTest, MachinePositionUpdated)
     move.x = 50.0;
     move.y = 30.0;
     move.z = 0.0;
+    move.feedrate = 300.0;
+    move.rapid = false;
 
     engine.execute(move);
 
@@ -76,7 +78,10 @@ TEST(MotionTest, CycleTimeIncreases)
     MotionEngine engine(state, config, logger);
 
     LinearMove move;
-    move.feedrate = 300;
+    move.x = 50.0;
+    move.y = 0.0;
+    move.z = 0.0;
+    move.feedrate = 300.0;
     move.rapid = false;
 
     engine.execute(move);
