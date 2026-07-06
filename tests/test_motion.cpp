@@ -70,11 +70,6 @@ TEST(MotionTest, OvertravelThrowsAlarm)
 
 TEST(MotionTest, CycleTimeIncreases)
 {
-    // set up state, config, logger, engine
-    // create a G1 LinearMove with feedrate = 300
-    // execute it
-    // fill in the expectation
-
     MachineState state;
     MachineConfig config = makeTestConfig();
     Logger logger;
