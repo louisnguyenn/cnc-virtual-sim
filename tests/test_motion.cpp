@@ -1,3 +1,4 @@
+#include "logger/Logger.h"
 #include "motion/MachineConfig.h"
 #include "motion/MachineState.h"
 #include "motion/MotionEngine.h"
@@ -60,14 +61,13 @@ TEST(MotionTest, OvertravelThrowsAlarm)
     MotionEngine engine(state, config, logger);
 
     LinearMove move;
-    move.x = 9999;
+    move.x = 9999.0;
     move.y = 0.0;
     move.z = 0.0;
+    move.feedrate = 300.0;
+    move.rapid = false;
 
-    engine.execute(move);
-
-    // throw the correct exception
-    EXPECT_THROW(engine.execute(move), MachineAlarmException);
+    EXPECT_THROW({ engine.execute(move); }, MachineAlarmException);
 }
 
 TEST(MotionTest, CycleTimeIncreases)
