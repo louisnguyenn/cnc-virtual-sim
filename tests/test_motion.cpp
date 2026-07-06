@@ -62,6 +62,8 @@ TEST(MotionTest, OvertravelThrowsAlarm)
     move.y = 0.0;
     move.z = 0.0;
 
+    engine.execute(move);
+
     // throw the correct exception
     EXPECT_THROW(engine.execute(move), MachineAlarmException);
 }
@@ -72,4 +74,17 @@ TEST(MotionTest, CycleTimeIncreases)
     // create a G1 LinearMove with feedrate = 300
     // execute it
     // fill in the expectation
+
+    MachineState state;
+    MachineConfig config = makeTestConfig();
+    Logger logger;
+    MotionEngine engine(state, config, logger);
+
+    LinearMove move;
+    move.feedrate = 300;
+    move.rapid = false;
+
+    engine.execute(move);
+
+    EXPECT_GT(state.cycleTimeSeconds, 0.0);
 }
