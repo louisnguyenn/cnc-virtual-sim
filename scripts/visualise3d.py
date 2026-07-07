@@ -17,9 +17,9 @@ z = np.array(df["z"].values)
 # print(x)
 
 # calculate delta (change in) points
-dx = np.diff(x);
-dy = np.diff(y);
-dz = np.diff(z);
+dx = np.diff(x)
+dy = np.diff(y)
+dz = np.diff(z)
 
 distances = np.sqrt(dx**2 + dy**2 + dz**2)
 
@@ -62,6 +62,8 @@ speed = np.where(dt > 0, distances / dt, 0)  # avoid division by zero
 # summary
 print(f"Total path length : {total_length:.2f} mm")
 print(f"Bounding box      : {width:.1f} x {depth:.1f} x {height:.1f} mm")
-print(f"Average feedrate  : {np.mean(feedrate):.1f} mm/min")
+print(f"Average feedrate  : {avg_feedrate:.1f} mm/min")
 print(f"Max feedrate      : {np.max(feedrate):.1f} mm/min")
 print(f"Min feedrate      : {np.min(feedrate):.1f} mm/min")
+print(f"Average speed     : {np.mean(speed):.1f} mm/s")
+print(f"Max speed         : {np.max(speed):.1f} mm/s")
