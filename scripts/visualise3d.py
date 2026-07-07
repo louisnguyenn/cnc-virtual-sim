@@ -8,6 +8,7 @@ df = pd.read_csv("toolpath.csv")
 #
 # calculate total path length
 #
+
 # get points
 x = np.array(df["x"].values)
 y = np.array(df["y"].values)
@@ -49,3 +50,18 @@ width = x_max - x_min
 height = y_max - y_min
 depth = z_max - z_min
 
+#
+# speed at each point
+#
+
+time_ms = df["time_ms"].values
+dt = np.diff(time_ms) / 1000.0  # convert ms to seconds
+
+speed = np.where(dt > 0, distances / dt, 0)  # avoid division by zero
+
+# summary
+print(f"Total path length : {total_length:.2f} mm")
+print(f"Bounding box      : {width:.1f} x {depth:.1f} x {height:.1f} mm")
+print(f"Average feedrate  : {np.mean(feedrate):.1f} mm/min")
+print(f"Max feedrate      : {np.max(feedrate):.1f} mm/min")
+print(f"Min feedrate      : {np.min(feedrate):.1f} mm/min")
