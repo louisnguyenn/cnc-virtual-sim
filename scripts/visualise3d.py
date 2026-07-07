@@ -34,4 +34,18 @@ feedrate = np.array(df["feedrate"].values)
 
 avg_feedrate = np.mean(feedrate)
 
-print(avg_feedrate)
+# print(avg_feedrate)
+
+#
+# bounding box of the toolpath
+#
+
+x_min, x_max = np.min(x), np.max(x)
+y_min, y_max = np.min(y), np.max(y)
+z_min, z_max = np.min(z), np.max(z)
+
+# width, height, and depth of the bounding box
+width = x_max - x_min
+height = y_max - y_min
+depth = z_max - z_min
+
