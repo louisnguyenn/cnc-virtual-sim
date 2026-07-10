@@ -194,14 +194,21 @@ std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &en
     // angle from centre to end point
     double a1{std::atan2(end.y - centre.y, end.x - centre.x)};
 
-    // rotation - cw means angle decrease, ccw means angle increase
-    if (clockwise && a1 > a0)
+    // special case — full circle when start and end are the same point
+    bool fullCircle = (std::abs(end.x - start.x) < 1e-9 && std::abs(end.y - start.y) < 1e-9);
+
+    if (fullCircle)
     {
-        a1 -= 2.0 * M_PI;
+        // force a full 360 degree sweep in the right direction
+        a1 = clockwise ? a0 - 2.0 * M_PI : a0 + 2.0 * M_PI;
     }
-    if (!clockwise && a1 < a0)
+    else
     {
-        a1 += 2.0 * M_PI;
+        // normal arc — adjust direction
+        if (clockwise && a1 > a0)
+            a1 -= 2.0 * M_PI;
+        if (!clockwise && a1 < a0)
+            a1 += 2.0 * M_PI;
     }
 
     double stepRag = stepDeg * M_PI / 180.0; // convert to radians
