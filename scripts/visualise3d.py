@@ -38,6 +38,11 @@ toolpath_trace = plotly.Scatter3d(
     )
 )
 
+# start and end markers
+start_trace = plotly.Scatter3d(x=[x[0]], y=[y[0]], z=[z[0]], mode="markers", marker=dict(size=8, color="green"), name="Start")
+
+end_trace = plotly.Scatter3d(x=[x[-1]], y=[y[-1]], z=[z[-1]], mode="markers", marker=dict(size=8, color="red",), name="End")
+
 # bounding box of the toolpath
 x_min, x_max = np.min(x), np.max(x)
 y_min, y_max = np.min(y), np.max(y)
