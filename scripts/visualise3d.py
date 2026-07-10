@@ -57,7 +57,8 @@ depth = z_max - z_min
 time_ms = df["time_ms"].values
 dt = np.diff(time_ms) / 1000.0  # convert ms to seconds
 
-speed = np.where(dt > 0, distances / dt, 0)  # avoid division by zero
+dt_safe = np.where(dt > 0, dt, np.nan)
+speed = np.where(dt > 0, distances / dt_safe, 0)  # avoid division by zero
 
 # summary
 print(f"Total path length : {total_length:.2f} mm")
