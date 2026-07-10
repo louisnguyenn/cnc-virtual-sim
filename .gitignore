@@ -28,3 +28,4 @@ _deps/
 *.csv
 !assets/*.png
 *.log
+*.html
