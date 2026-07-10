@@ -56,13 +56,38 @@ depth = z_max - z_min
 # speed at each interpolated point
 time_ms = df["time_ms"].values
 dt = np.diff(time_ms) / 1000.0  # convert ms to seconds
-
 dt_safe = np.where(dt > 0, dt, np.nan)
 speed = np.where(dt > 0, distances / dt_safe, 0)  # avoid division by zero
 
+# build figure
+fig = plotly.Figure(data=[toolpath_trace, start_trace, end_trace])
+
+fig.update_layout(
+    title=dict(
+        text=(
+            f"CNC Toolpath — 3D View<br>"
+            f"<sup>Total length: {total_length:.1f}mm | "
+            f"Points: {len(x)} | "
+            f"Max feedrate: {np.max(feedrate):.0f} mm/min</sup>"
+        )
+    ),
+    scene=dict(
+        xaxis_title="X (mm)",
+        yaxis_title="Y (mm)",
+        zaxis_title="Z (mm)",
+        aspectmode="data"      # keeps axes proportional to real dimensions
+    ),
+    legend=dict(x=0, y=1)
+)
+
 # summary
+fig.write_html("toolpath3d.html")
+print("Saved toolpath3d.html")
 print(f"Total path length : {total_length:.2f} mm")
-print(f"Bounding box      : {width:.1f} x {height:.1f} x {depth:.1f} mm")
-print(f"Average feedrate  : {avg_feedrate:.1f} mm/min")
-print(f"Max feedrate      : {np.max(feedrate):.1f} mm/min")
-print(f"Min feedrate      : {np.min(feedrate):.1f} mm/min")
+print(f"Points plotted    : {len(x)}")
+print(f"Max feedrate      : {np.max(feedrate):.0f} mm/min")
+
+# print(f"Bounding box      : {width:.1f} x {height:.1f} x {depth:.1f} mm")
+# print(f"Average feedrate  : {avg_feedrate:.1f} mm/min")
+# print(f"Max feedrate      : {np.max(feedrate):.1f} mm/min")
+# print(f"Min feedrate      : {np.min(feedrate):.1f} mm/min")
