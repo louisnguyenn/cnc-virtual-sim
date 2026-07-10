@@ -58,6 +58,11 @@ void MotionEngine::executeLinear(const LinearMove &move)
     for (const auto &pt : points)
     {
         m_toolpath.push_back(pt);
+
+        // log every point
+        m_state.position = pt;
+        std::string status = statusToString(m_state.status);
+        m_logger.log(pt, move.feedrate, status);
     }
 
     // update machine state
