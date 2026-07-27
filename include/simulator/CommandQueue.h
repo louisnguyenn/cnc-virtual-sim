@@ -8,8 +8,8 @@ template <typename T> class CommandQueue
 {
   private:
     std::queue<T> m_queue;
-    mutable std::mutex m_mutex; // a lock, prevents two threads from accessing the queue at the same time. automatically
-                                // released when out of scope
+    mutable std::mutex m_mutex; // a lock, prevents two threads from accessing the queue at the same
+                                // time. automatically released when out of scope
     std::condition_variable m_cv; // lets a thread sleep until something happens
     bool m_done{false};
 
@@ -30,10 +30,12 @@ template <typename T> class CommandQueue
     {
         std::unique_lock<std::mutex> lock(m_mutex);
 
-        m_cv.wait(lock, [this] {
-            // return if something is in the queue or done
-            return !m_queue.empty() || m_done;
-        });
+        m_cv.wait(lock,
+                  [this]
+                  {
+                      // return if something is in the queue or done
+                      return !m_queue.empty() || m_done;
+                  });
 
         // if queue is empty return nothing
         if (m_queue.empty())

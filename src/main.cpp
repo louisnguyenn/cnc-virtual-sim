@@ -4,7 +4,7 @@
 #include "simulator/SimulatorException.h"
 #include <iostream>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     // parse command-line args
     auto config = AppConfig::parse(argc, argv);
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
         return 1;
 
     // set up app logger
-    auto &log = AppLogger::get();
+    auto& log = AppLogger::get();
     log.setLevel(config.verbose ? LogLevel::DEBUG : LogLevel::INFO);
     log.setFile("simulator.log");
 
@@ -27,17 +27,17 @@ int main(int argc, char *argv[])
         sim.getLogger().printSummary(sim.getState());
         std::cout << "Toolpath saved to toolpath.csv\n";
     }
-    catch (const ConfigException &e)
+    catch (const ConfigException& e)
     {
         log.error(e.what());
         return 1;
     }
-    catch (const ParseException &e)
+    catch (const ParseException& e)
     {
         log.error(e.what());
         return 1;
     }
-    catch (const SimulatorException &e)
+    catch (const SimulatorException& e)
     {
         log.error(e.what());
         return 1;

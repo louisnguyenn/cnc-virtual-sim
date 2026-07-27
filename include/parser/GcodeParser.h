@@ -32,12 +32,12 @@ class GcodeParser
     double m_currentZ{0.0};
 
     // helper functions
-    std::string stripComment(const std::string &line);
-    std::unordered_map<char, double> tokenise(const std::string &line);
-    std::optional<GCommand> buildCommand(int gCode, const std::unordered_map<char, double> &words);
+    std::string stripComment(const std::string& line);
+    std::unordered_map<char, double> tokenise(const std::string& line);
+    std::optional<GCommand> buildCommand(int gCode, const std::unordered_map<char, double>& words);
 
   public:
     GcodeParser();
-    std::optional<GCommand> parseLine(const std::string &line); // parse a single line
-    std::vector<GCommand> parseFile(const std::string &path);   // parse an entire file
+    std::optional<GCommand> parseLine(const std::string& line); // parse a single line
+    std::vector<GCommand> parseFile(const std::string& path);   // parse an entire file
 };

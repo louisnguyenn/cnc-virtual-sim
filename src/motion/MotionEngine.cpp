@@ -5,20 +5,20 @@
 #include <stdexcept>
 
 // constructor
-MotionEngine::MotionEngine(MachineState &state, const MachineConfig &config, Logger &logger)
+MotionEngine::MotionEngine(MachineState& state, const MachineConfig& config, Logger& logger)
     : m_state(state), m_config(config), m_logger(logger)
 {
 }
 
 // tool path getter
-const std::vector<Vec3> &MotionEngine::getToolPath() const
+const std::vector<Vec3>& MotionEngine::getToolPath() const
 {
     return m_toolpath;
 }
 
 /// @brief execute a g command based on it's command (LinearMove, ArcMove, etc.)
 /// @param cmd
-void MotionEngine::execute(const GCommand &cmd)
+void MotionEngine::execute(const GCommand& cmd)
 {
     if (std::holds_alternative<LinearMove>(cmd))
     {
@@ -45,7 +45,7 @@ void MotionEngine::execute(const GCommand &cmd)
 
 /// @brief execute linear move
 /// @param move - type LinearMove
-void MotionEngine::executeLinear(const LinearMove &move)
+void MotionEngine::executeLinear(const LinearMove& move)
 {
     Vec3 end{move.x, move.y, move.z};
     Vec3 start{m_state.position};
@@ -55,7 +55,7 @@ void MotionEngine::executeLinear(const LinearMove &move)
     auto points = interpolateLinear(start, end);
 
     // add points to tool path
-    for (const auto &pt : points)
+    for (const auto& pt : points)
     {
         m_toolpath.push_back(pt);
 
@@ -86,7 +86,7 @@ void MotionEngine::executeLinear(const LinearMove &move)
 
 /// @brief execute arc move
 /// @param arc
-void MotionEngine::executeArc(const ArcMove &arc)
+void MotionEngine::executeArc(const ArcMove& arc)
 {
     Vec3 start{m_state.position};
     Vec3 end{arc.x, arc.y, arc.z};
@@ -96,7 +96,7 @@ void MotionEngine::executeArc(const ArcMove &arc)
     auto points = interpolateArc(start, end, arc.i, arc.j, arc.clockwise);
 
     // add each point to the toolpath vector
-    for (const auto &pt : points)
+    for (const auto& pt : points)
     {
         m_toolpath.push_back(pt);
 
@@ -117,7 +117,8 @@ void MotionEngine::executeArc(const ArcMove &arc)
         m_state.cycleTimeSeconds += (distance / arc.feedrate) * 60.0;
     }
 
-    std::cout << "[INFO] ArcMove → X:" << end.x << " Y:" << end.y << (arc.clockwise ? " (CW)\n" : " (CCW)\n");
+    std::cout << "[INFO] ArcMove → X:" << end.x << " Y:" << end.y
+              << (arc.clockwise ? " (CW)\n" : " (CCW)\n");
 
     m_logger.log(m_state.position, m_state.feedrate, statusToString(m_state.status));
     // m_logger.printStatus(m_state.position, m_state.feedrate, statusToString(m_state.status));
@@ -125,7 +126,7 @@ void MotionEngine::executeArc(const ArcMove &arc)
 
 /// @brief update spindle machine state
 /// @param cmd
-void MotionEngine::executeSpindle(const SpindleCmd &cmd)
+void MotionEngine::executeSpindle(const SpindleCmd& cmd)
 {
     m_state.spindleOn = cmd.on;
     m_state.spindleRpm = cmd.rpm;
@@ -135,7 +136,7 @@ void MotionEngine::executeSpindle(const SpindleCmd &cmd)
 
 /// @brief update dwell machine state
 /// @param cmd
-void MotionEngine::executeDwell(const DwellCmd &cmd)
+void MotionEngine::executeDwell(const DwellCmd& cmd)
 {
     m_state.cycleTimeSeconds += cmd.seconds;
 
@@ -144,12 +145,13 @@ void MotionEngine::executeDwell(const DwellCmd &cmd)
 
 // interpolation methods
 
-/// @brief create dotted points from point 1 to point 2. stepMm tell us how fine each points are from eachother
+/// @brief create dotted points from point 1 to point 2. stepMm tell us how fine each points are
+/// from eachother
 /// @param from
 /// @param to
 /// @param stepMm
 /// @return vector of points
-std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &to, double stepMm)
+std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3& from, const Vec3& to, double stepMm)
 {
     std::vector<Vec3> points;
     double distance = from.distanceTo(to); // get distance
@@ -176,8 +178,8 @@ std::vector<Vec3> MotionEngine::interpolateLinear(const Vec3 &from, const Vec3 &
     return points;
 }
 
-std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &end, double i, double j, bool clockwise,
-                                               double stepDeg)
+std::vector<Vec3> MotionEngine::interpolateArc(const Vec3& start, const Vec3& end, double i,
+                                               double j, bool clockwise, double stepDeg)
 {
     std::vector<Vec3> points;
 
@@ -234,17 +236,20 @@ std::vector<Vec3> MotionEngine::interpolateArc(const Vec3 &start, const Vec3 &en
 
 /// @brief check axis limits and throw exception
 /// @param pos
-void MotionEngine::checkLimits(const Vec3 &pos)
+void MotionEngine::checkLimits(const Vec3& pos)
 {
     if (pos.x < m_config.x.minMm || pos.x > m_config.x.maxMm)
-        throw MachineAlarmException("X overtravel at " + std::to_string(pos.x) + " (limits: " +
-                                    std::to_string(m_config.x.minMm) + " to " + std::to_string(m_config.x.maxMm) + ")");
+        throw MachineAlarmException("X overtravel at " + std::to_string(pos.x) +
+                                    " (limits: " + std::to_string(m_config.x.minMm) + " to " +
+                                    std::to_string(m_config.x.maxMm) + ")");
 
     if (pos.y < m_config.y.minMm || pos.y > m_config.y.maxMm)
-        throw MachineAlarmException("Y overtravel at " + std::to_string(pos.y) + " (limits: " +
-                                    std::to_string(m_config.y.minMm) + " to " + std::to_string(m_config.y.maxMm) + ")");
+        throw MachineAlarmException("Y overtravel at " + std::to_string(pos.y) +
+                                    " (limits: " + std::to_string(m_config.y.minMm) + " to " +
+                                    std::to_string(m_config.y.maxMm) + ")");
 
     if (pos.z < m_config.z.minMm || pos.z > m_config.z.maxMm)
-        throw MachineAlarmException("Z overtravel at " + std::to_string(pos.z) + " (limits: " +
-                                    std::to_string(m_config.z.minMm) + " to " + std::to_string(m_config.z.maxMm) + ")");
+        throw MachineAlarmException("Z overtravel at " + std::to_string(pos.z) +
+                                    " (limits: " + std::to_string(m_config.z.minMm) + " to " +
+                                    std::to_string(m_config.z.maxMm) + ")");
 }

@@ -5,7 +5,7 @@
 #include <iostream>
 
 // private
-void AppLogger::log(LogLevel level, const std::string &msg)
+void AppLogger::log(LogLevel level, const std::string& msg)
 {
     if (level < m_level)
     {
@@ -26,16 +26,16 @@ std::string AppLogger::levelToString(LogLevel level) const
 {
     switch (level)
     {
-    case LogLevel::DEBUG:
-        return "DEBUG";
-    case LogLevel::INFO:
-        return "INFO";
-    case LogLevel::WARN:
-        return "WARN";
-    case LogLevel::ERROR:
-        return "ERROR";
-    default:
-        return "UNKNOWN";
+        case LogLevel::DEBUG:
+            return "DEBUG";
+        case LogLevel::INFO:
+            return "INFO";
+        case LogLevel::WARN:
+            return "WARN";
+        case LogLevel::ERROR:
+            return "ERROR";
+        default:
+            return "UNKNOWN";
     }
 }
 
@@ -58,7 +58,7 @@ void AppLogger::setLevel(LogLevel level)
 
 /// @brief opens the file for the lifetime of the logger
 /// @param path
-void AppLogger::setFile(const std::string &path)
+void AppLogger::setFile(const std::string& path)
 {
     m_file.open(path);
 
@@ -68,29 +68,29 @@ void AppLogger::setFile(const std::string &path)
     }
 }
 
-AppLogger &AppLogger::get()
+AppLogger& AppLogger::get()
 {
     static AppLogger instance;
 
     return instance;
 }
 
-void AppLogger::debug(const std::string &msg)
+void AppLogger::debug(const std::string& msg)
 {
     log(LogLevel::DEBUG, msg);
 }
 
-void AppLogger::info(const std::string &msg)
+void AppLogger::info(const std::string& msg)
 {
     log(LogLevel::INFO, msg);
 }
 
-void AppLogger::warn(const std::string &msg)
+void AppLogger::warn(const std::string& msg)
 {
     log(LogLevel::WARN, msg);
 }
 
-void AppLogger::error(const std::string &msg)
+void AppLogger::error(const std::string& msg)
 {
     log(LogLevel::ERROR, msg);
 }

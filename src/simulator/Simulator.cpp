@@ -3,7 +3,7 @@
 #include <iostream>
 #include <thread>
 
-Simulator::Simulator(const std::string &configPath)
+Simulator::Simulator(const std::string& configPath)
 {
     // check if loading is successful
     if (!m_config.loadFromFile(configPath))
@@ -13,17 +13,17 @@ Simulator::Simulator(const std::string &configPath)
 }
 
 // getters
-const MachineConfig &Simulator::getConfig() const
+const MachineConfig& Simulator::getConfig() const
 {
     return m_config;
 }
 
-const MachineState &Simulator::getState() const
+const MachineState& Simulator::getState() const
 {
     return m_state;
 }
 
-const Logger &Simulator::getLogger() const
+const Logger& Simulator::getLogger() const
 {
     return m_logger;
 }
@@ -31,13 +31,13 @@ const Logger &Simulator::getLogger() const
 /// @brief parser thread function
 /// @param path
 /// @param queue
-void Simulator::parserThread(const std::string &path, CommandQueue<GCommand> &queue)
+void Simulator::parserThread(const std::string& path, CommandQueue<GCommand>& queue)
 {
     GcodeParser parser;
     auto commands = parser.parseFile(path);
 
     // push every command onto the queue one by one
-    for (auto &cmd : commands)
+    for (auto& cmd : commands)
     {
         queue.push(cmd);
     }
@@ -48,7 +48,7 @@ void Simulator::parserThread(const std::string &path, CommandQueue<GCommand> &qu
 
 /// @brief simulator thread function
 /// @param queue
-void Simulator::simulatorThread(CommandQueue<GCommand> &queue)
+void Simulator::simulatorThread(CommandQueue<GCommand>& queue)
 {
     MotionEngine engine(m_state, m_config, m_logger);
 
@@ -68,7 +68,7 @@ void Simulator::simulatorThread(CommandQueue<GCommand> &queue)
             engine.execute(*cmd);
         }
     }
-    catch (const MachineAlarmException &e)
+    catch (const MachineAlarmException& e)
     {
         std::cerr << "\n*** " << e.what() << " ***\n";
         m_state.status = MachineStatus::ALARM;
@@ -79,7 +79,7 @@ void Simulator::simulatorThread(CommandQueue<GCommand> &queue)
 
 /// @brief runs both threads into action
 /// @param gcodePath
-void Simulator::run(const std::string &gcodePath)
+void Simulator::run(const std::string& gcodePath)
 {
     CommandQueue<GCommand> queue;
 

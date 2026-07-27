@@ -3,7 +3,7 @@
 #include <iostream>
 
 // parse from argc/argv
-AppConfig AppConfig::parse(int argc, char *argv[])
+AppConfig AppConfig::parse(int argc, char* argv[])
 {
     AppConfig app;
 
@@ -39,7 +39,9 @@ AppConfig AppConfig::parse(int argc, char *argv[])
 // print usage instructions
 void AppConfig::printUsage()
 {
-    std::cout << "Usage: cnc_simulator [options]\nOptions:\n\t--config <path>\tPath to machine config JSON (default: "
+    std::cout << "Usage: cnc_simulator [options]\nOptions:\n\t--config <path>\tPath to machine "
+                 "config JSON (default: "
                  "config/machine.json)\n\t--input <path>\tPath to G-code file (default: "
-                 "tests/programs/square.gcode)\n\t--verbose\tEnable debug logging\n\t--help\t\tShow this message\n";
+                 "tests/programs/square.gcode)\n\t--verbose\tEnable debug "
+                 "logging\n\t--help\t\tShow this message\n";
 }

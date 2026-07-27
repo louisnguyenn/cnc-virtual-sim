@@ -9,7 +9,7 @@ TEST(ParserTest, ParsesG1LinearMove)
     auto cmd = parser.parseLine("G1 X10.0 Y5.5 F300");
     ASSERT_TRUE(cmd.has_value());
     ASSERT_TRUE(std::holds_alternative<LinearMove>(*cmd));
-    auto &mv = std::get<LinearMove>(*cmd);
+    auto& mv = std::get<LinearMove>(*cmd);
     EXPECT_DOUBLE_EQ(mv.x, 10.0);
     EXPECT_DOUBLE_EQ(mv.y, 5.5);
     EXPECT_DOUBLE_EQ(mv.feedrate, 300.0);
@@ -21,7 +21,7 @@ TEST(ParserTest, ParsesG0RapidMove)
     GcodeParser parser;
     auto cmd = parser.parseLine("G0 X0 Y0 Z5");
     ASSERT_TRUE(cmd.has_value());
-    auto &mv = std::get<LinearMove>(*cmd);
+    auto& mv = std::get<LinearMove>(*cmd);
     EXPECT_TRUE(mv.rapid);
     EXPECT_DOUBLE_EQ(mv.z, 5.0);
 }
@@ -31,7 +31,7 @@ TEST(ParserTest, NegativeCoordinates)
     GcodeParser parser;
     auto cmd = parser.parseLine("G1 X-10.0 Y-20.5 F200");
     ASSERT_TRUE(cmd.has_value());
-    auto &mv = std::get<LinearMove>(*cmd);
+    auto& mv = std::get<LinearMove>(*cmd);
     EXPECT_DOUBLE_EQ(mv.x, -10.0);
     EXPECT_DOUBLE_EQ(mv.y, -20.5);
 }
@@ -44,7 +44,7 @@ TEST(ParserTest, RemembersFeedrateAcrossLines)
     parser.parseLine("G1 X0 Y0 F500");         // sets feedrate to 500
     auto cmd = parser.parseLine("G1 X10 Y10"); // no F — should use 500
     ASSERT_TRUE(cmd.has_value());
-    auto &mv = std::get<LinearMove>(*cmd);
+    auto& mv = std::get<LinearMove>(*cmd);
     EXPECT_DOUBLE_EQ(mv.feedrate, 500.0);
 }
 
@@ -56,7 +56,7 @@ TEST(ParserTest, ParsesG2ClockwiseArc)
     auto cmd = parser.parseLine("G2 X10 Y0 I5 J0 F300");
     ASSERT_TRUE(cmd.has_value());
     ASSERT_TRUE(std::holds_alternative<ArcMove>(*cmd));
-    auto &arc = std::get<ArcMove>(*cmd);
+    auto& arc = std::get<ArcMove>(*cmd);
     EXPECT_TRUE(arc.clockwise);
     EXPECT_DOUBLE_EQ(arc.i, 5.0);
 }
@@ -66,7 +66,7 @@ TEST(ParserTest, ParsesG3CounterClockwiseArc)
     GcodeParser parser;
     auto cmd = parser.parseLine("G3 X10 Y0 I5 J0 F300");
     ASSERT_TRUE(cmd.has_value());
-    auto &arc = std::get<ArcMove>(*cmd);
+    auto& arc = std::get<ArcMove>(*cmd);
     EXPECT_FALSE(arc.clockwise);
 }
 
@@ -91,7 +91,7 @@ TEST(ParserTest, InlineCommentStripped)
     GcodeParser parser;
     auto cmd = parser.parseLine("G1 X10 Y5 F300 ; move to start");
     ASSERT_TRUE(cmd.has_value());
-    auto &mv = std::get<LinearMove>(*cmd);
+    auto& mv = std::get<LinearMove>(*cmd);
     EXPECT_DOUBLE_EQ(mv.x, 10.0);
 }
 
@@ -111,7 +111,7 @@ TEST(ParserTest, ParsesM3SpindleOn)
     auto cmd = parser.parseLine("M3 S1000");
     ASSERT_TRUE(cmd.has_value());
     ASSERT_TRUE(std::holds_alternative<SpindleCmd>(*cmd));
-    auto &sp = std::get<SpindleCmd>(*cmd);
+    auto& sp = std::get<SpindleCmd>(*cmd);
     EXPECT_TRUE(sp.on);
     EXPECT_EQ(sp.rpm, 1000);
 }
@@ -121,7 +121,7 @@ TEST(ParserTest, ParsesM5SpindleOff)
     GcodeParser parser;
     auto cmd = parser.parseLine("M5");
     ASSERT_TRUE(cmd.has_value());
-    auto &sp = std::get<SpindleCmd>(*cmd);
+    auto& sp = std::get<SpindleCmd>(*cmd);
     EXPECT_FALSE(sp.on);
 }
 
@@ -147,7 +147,7 @@ TEST(ParserTest, ParsesSquareGcodeFile)
     EXPECT_EQ(cmds.size(), 8);
     // First command should be a rapid move (G0)
     EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[0]));
-    auto &first = std::get<LinearMove>(cmds[0]);
+    auto& first = std::get<LinearMove>(cmds[0]);
     EXPECT_TRUE(first.rapid);
     // Last command should be program end
     EXPECT_TRUE(std::holds_alternative<ProgramEnd>(cmds.back()));
@@ -163,15 +163,15 @@ TEST(ParserTest, ParsesCircleGcodeFile)
     EXPECT_EQ(cmds.size(), 5);
     // first command should be rapid linear move
     EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[0]));
-    auto &first = std::get<LinearMove>(cmds[0]);
+    auto& first = std::get<LinearMove>(cmds[0]);
     EXPECT_TRUE(first.rapid); // should be true
     // second command should be a linear move
     EXPECT_TRUE(std::holds_alternative<LinearMove>(cmds[1]));
-    auto &second = std::get<LinearMove>(cmds[1]);
+    auto& second = std::get<LinearMove>(cmds[1]);
     EXPECT_FALSE(second.rapid);
     // third command should be a clockwise arc
     EXPECT_TRUE(std::holds_alternative<ArcMove>(cmds[2]));
-    auto &third = std::get<ArcMove>(cmds[2]);
+    auto& third = std::get<ArcMove>(cmds[2]);
     EXPECT_TRUE(third.clockwise);
     // last command should be program end
     EXPECT_TRUE(std::holds_alternative<ProgramEnd>(cmds[4]));
@@ -183,7 +183,7 @@ TEST(ParserTest, DwellCommand)
     GcodeParser parser;
     auto cmd = parser.parseLine("G4 P2.5"); // parse line
     ASSERT_TRUE(cmd.has_value());
-    auto &dwell = std::get<DwellCmd>(*cmd);
+    auto& dwell = std::get<DwellCmd>(*cmd);
     EXPECT_DOUBLE_EQ(dwell.seconds, 2.5); // check number of seconds
 }
 

@@ -25,14 +25,14 @@ class Logger
     Logger();
 
     // log every time the machine moves
-    void log(const Vec3 &pos, double feedrate, const std::string &status);
+    void log(const Vec3& pos, double feedrate, const std::string& status);
 
     // write all records to VSC file
-    void writeToCSV(const std::string &path) const;
+    void writeToCSV(const std::string& path) const;
 
-    void printStatus(const Vec3 &pos, double feedrate, const std::string &status) const;
+    void printStatus(const Vec3& pos, double feedrate, const std::string& status) const;
 
-    void printSummary(const MachineState &state) const;
+    void printSummary(const MachineState& state) const;
 
     int recordCount() const;
 };

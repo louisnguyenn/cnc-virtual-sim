@@ -18,19 +18,19 @@ class Simulator
     Logger m_logger;
 
     // parser thread function
-    void parserThread(const std::string &path, CommandQueue<GCommand> &queue);
+    void parserThread(const std::string& path, CommandQueue<GCommand>& queue);
 
     // simulator thread function
-    void simulatorThread(CommandQueue<GCommand> &queue);
+    void simulatorThread(CommandQueue<GCommand>& queue);
 
   public:
-    explicit Simulator(const std::string &configPath);
+    explicit Simulator(const std::string& configPath);
 
     // run a gcode file through the full pipeline
-    void run(const std::string &gcodePath);
+    void run(const std::string& gcodePath);
 
     // getters for config and state
-    const MachineConfig &getConfig() const;
-    const MachineState &getState() const;
-    const Logger &getLogger() const;
+    const MachineConfig& getConfig() const;
+    const MachineState& getState() const;
+    const Logger& getLogger() const;
 };

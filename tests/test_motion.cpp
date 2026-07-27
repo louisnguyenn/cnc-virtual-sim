@@ -9,8 +9,8 @@
 // MachineConfig makeTestConfig()
 // {
 //     MachineConfig config;
-//     config.loadFromFile("/home/louis/projects/cnc-virtual-sim/config/machine.json"); // absolute value
-//     return config;
+//     config.loadFromFile("/home/louis/projects/cnc-virtual-sim/config/machine.json"); // absolute
+//     value return config;
 // }
 
 // no file needed for testing
@@ -49,7 +49,8 @@ TEST(MotionTest, LinearInterpolationPointCount)
 
     engine.execute(move);
 
-    EXPECT_GT(engine.getToolPath().size(), 1); // should produce 101 steps (should be greater than 1)
+    EXPECT_GT(engine.getToolPath().size(),
+              1); // should produce 101 steps (should be greater than 1)
 }
 
 TEST(MotionTest, MachinePositionUpdated)

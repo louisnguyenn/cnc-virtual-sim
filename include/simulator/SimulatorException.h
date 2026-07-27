@@ -6,7 +6,7 @@
 class SimulatorException : public std::runtime_error
 {
   public:
-    explicit SimulatorException(const std::string &msg) : std::runtime_error(msg)
+    explicit SimulatorException(const std::string& msg) : std::runtime_error(msg)
     {
     }
 };
@@ -15,7 +15,7 @@ class SimulatorException : public std::runtime_error
 class MachineAlarmException : public SimulatorException
 {
   public:
-    explicit MachineAlarmException(const std::string &msg) : SimulatorException("ALARM: " + msg)
+    explicit MachineAlarmException(const std::string& msg) : SimulatorException("ALARM: " + msg)
     {
     }
 };
@@ -24,7 +24,7 @@ class MachineAlarmException : public SimulatorException
 class ParseException : public SimulatorException
 {
   public:
-    explicit ParseException(const std::string &msg) : SimulatorException("Parse error: " + msg)
+    explicit ParseException(const std::string& msg) : SimulatorException("Parse error: " + msg)
     {
     }
 };
@@ -33,7 +33,7 @@ class ParseException : public SimulatorException
 class ConfigException : public SimulatorException
 {
   public:
-    explicit ConfigException(const std::string &msg) : SimulatorException("Config error: " + msg)
+    explicit ConfigException(const std::string& msg) : SimulatorException("Config error: " + msg)
     {
     }
 };

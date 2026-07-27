@@ -20,7 +20,7 @@ GcodeParser::GcodeParser()
 /// @brief removes anything after a semicolon
 /// @param line
 /// @return {std::string} - line
-std::string GcodeParser::stripComment(const std::string &line)
+std::string GcodeParser::stripComment(const std::string& line)
 {
     auto pos = line.find(';');
     if (pos != std::string::npos)
@@ -35,7 +35,7 @@ std::string GcodeParser::stripComment(const std::string &line)
 /// produces a map of the gcode to the value e.g. G -> 1
 /// @param line
 /// @return {std::unordered_map} - words
-std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
+std::unordered_map<char, double> GcodeParser::tokenise(const std::string& line)
 {
     std::unordered_map<char, double> words;
     std::istringstream ss(line);
@@ -55,7 +55,7 @@ std::unordered_map<char, double> GcodeParser::tokenise(const std::string &line)
 /// @param c
 /// @param words
 /// @return value (double)
-double get(char c, const std::unordered_map<char, double> &words)
+double get(char c, const std::unordered_map<char, double>& words)
 {
     return words.count(c) ? words.at(c) : 0.0;
 }
@@ -65,7 +65,8 @@ double get(char c, const std::unordered_map<char, double> &words)
 /// @param gCode
 /// @param words
 /// @return {std::optional<GCommand>}
-std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordered_map<char, double> &words)
+std::optional<GCommand> GcodeParser::buildCommand(int gCode,
+                                                  const std::unordered_map<char, double>& words)
 {
     double feedrate = words.count('F') ? words.at('F') : m_currentFeedrate;
 
@@ -144,7 +145,7 @@ std::optional<GCommand> GcodeParser::buildCommand(int gCode, const std::unordere
 /// @brief parse a single line
 /// @param line
 /// @return {std::optional<GCommand>} line
-std::optional<GCommand> GcodeParser::parseLine(const std::string &line)
+std::optional<GCommand> GcodeParser::parseLine(const std::string& line)
 {
     std::string cleaned_line = stripComment(line);
 
@@ -210,7 +211,7 @@ std::optional<GCommand> GcodeParser::parseLine(const std::string &line)
 /// @brief parse an entire file
 /// @param path
 /// @return {std::vector<GCommand>} full vector of converted Gcode to C++ Gcommands
-std::vector<GCommand> GcodeParser::parseFile(const std::string &path)
+std::vector<GCommand> GcodeParser::parseFile(const std::string& path)
 {
     std::vector<GCommand> commands;
     std::string line;

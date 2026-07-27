@@ -21,5 +21,5 @@ struct MachineConfig
     /// @brief load from json file
     /// @param path
     /// @return true if exists
-    bool loadFromFile(const std::string &path);
+    bool loadFromFile(const std::string& path);
 };

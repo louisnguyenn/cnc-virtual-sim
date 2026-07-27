@@ -4,7 +4,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-bool MachineConfig::loadFromFile(const std::string &path)
+bool MachineConfig::loadFromFile(const std::string& path)
 {
     // open file
     std::ifstream file(path);
@@ -19,7 +19,7 @@ bool MachineConfig::loadFromFile(const std::string &path)
     {
         file >> config_file;
     }
-    catch (const nlohmann::json::parse_error &e)
+    catch (const nlohmann::json::parse_error& e)
     {
         throw ConfigException("failed to parse config file: " + std::string(e.what()));
     }
