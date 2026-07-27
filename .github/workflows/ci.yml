@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1 — check out the repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2 — install dependencies
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            ninja-build \
+            python3 \
+            python3-pip
+
+      # 3 — configure with cmake
+      - name: Configure
+        run: |
+          cmake -B build \
+                -G Ninja \
+                -DCMAKE_BUILD_TYPE=Debug
+
+      # 4 — build
+      - name: Build
+        run: cmake --build build
+
+      # 5 — run tests
+      - name: Test
+        run: |
+          cd ${{ github.workspace }}
+          ./build/tests/cnc_tests
