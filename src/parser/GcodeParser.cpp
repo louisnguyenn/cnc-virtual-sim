@@ -191,19 +191,19 @@ std::optional<GCommand> GcodeParser::parseLine(const std::string& line)
     {
         int mCode = static_cast<int>(words.at('M'));
         const int spindle_default{1000};
-        const int M3{3};
-        const int M5{5};
-        const int M30{30};
+        const int kSpindleOn{3};
+        const int kSpindleOff{5};
+        const int kProgramEnd{30};
 
-        if (mCode == M3)
+        if (mCode == kSpindleOn)
         {
             return SpindleCmd{true, words.count('S') ? (int)words.at('S') : spindle_default};
         }
-        if (mCode == M5)
+        if (mCode == kSpindleOff)
         {
             return SpindleCmd{false, 0};
         }
-        if (mCode == M30)
+        if (mCode == kProgramEnd)
         {
             return ProgramEnd{};
         }
