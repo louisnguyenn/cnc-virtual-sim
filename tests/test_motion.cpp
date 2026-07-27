@@ -6,10 +6,30 @@
 #include <gtest/gtest.h>
 
 // helper — creates a default config
+// MachineConfig makeTestConfig()
+// {
+//     MachineConfig config;
+//     config.loadFromFile("/home/louis/projects/cnc-virtual-sim/config/machine.json"); // absolute value
+//     return config;
+// }
+
+// no file needed for testing
 MachineConfig makeTestConfig()
 {
     MachineConfig config;
-    config.loadFromFile("/home/louis/projects/cnc-virtual-sim/config/machine.json");
+    config.name = "TestMachine";
+    config.x.minMm = -500.0;
+    config.x.maxMm = 500.0;
+    config.x.maxFeedrateMmpm = 10000.0;
+    config.y.minMm = -400.0;
+    config.y.maxMm = 400.0;
+    config.y.maxFeedrateMmpm = 10000.0;
+    config.z.minMm = -300.0;
+    config.z.maxMm = 0.0;
+    config.z.maxFeedrateMmpm = 5000.0;
+    config.spindleMinRpm = 100;
+    config.spindleMaxRpm = 12000;
+    config.accelerationMmS2 = 500.0;
     return config;
 }
 
