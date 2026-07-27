@@ -13,9 +13,7 @@ format:
 "M30"
 */
 
-GcodeParser::GcodeParser()
-{
-}
+GcodeParser::GcodeParser() = default;
 
 /// @brief removes anything after a semicolon
 /// @param line
@@ -39,8 +37,8 @@ std::unordered_map<char, double> GcodeParser::tokenise(const std::string& line)
 {
     std::unordered_map<char, double> words;
     std::istringstream ss(line);
-    char letter;
-    double value;
+    char letter{};
+    double value{};
 
     while (ss >> letter >> value)
     {
@@ -76,7 +74,7 @@ std::optional<GCommand> GcodeParser::buildCommand(int gCode,
     */
     if (gCode == 0 || gCode == 1)
     {
-        LinearMove lin_move;
+        LinearMove lin_move{};
 
         lin_move.x = words.count('X') ? get('X', words) : m_currentX;
         lin_move.y = words.count('Y') ? get('Y', words) : m_currentY;
@@ -106,7 +104,7 @@ std::optional<GCommand> GcodeParser::buildCommand(int gCode,
     */
     if (gCode == 2 || gCode == 3)
     {
-        ArcMove arc;
+        ArcMove arc{};
 
         arc.x = words.count('X') ? get('X', words) : m_currentX;
         arc.y = words.count('Y') ? get('Y', words) : m_currentY;
