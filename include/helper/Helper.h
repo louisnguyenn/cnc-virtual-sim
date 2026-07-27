@@ -21,4 +21,4 @@ static std::string statusToString(MachineStatus status)
         default:
             return "UNKNOWN";
     }
-}qq
+}
