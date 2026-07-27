@@ -1,5 +1,7 @@
 # ⚙️ CNC Virtual Simulator
 
+[![CI](https://github.com/louisnguyenn/cnc-virtual-sim/actions/workflows/ci.yml/badge.svg)](https://github.com/louisnguyenn/cnc-virtual-sim/actions/workflows/ci.yml)
+
 > A real-time CNC machine simulator built in C++17.
 
 The CNC Virtual Simulator parses industry-standard G-code programs and simulates the motion of a 3-axis CNC machine in real time; detecting errors, logging telemetry, and producing toolpath reports. Built to mirror the kind of low-level, performance-critical software used in real manufacturing and robotics systems.
