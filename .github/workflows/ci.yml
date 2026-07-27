@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-test:
@@ -42,3 +42,18 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           ./build/tests/cnc_tests
+  # format checking job
+  format-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+
+      - name: Check formatting
+        run: |
+          find src include tests -name "*.cpp" -o -name "*.h" | \
+              xargs clang-format --dry-run --Werror
