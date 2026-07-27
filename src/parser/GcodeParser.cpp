@@ -164,13 +164,15 @@ std::optional<GCommand> GcodeParser::parseLine(const std::string& line)
     if (words.count('G'))
     {
         int gCode = static_cast<int>(words.at('G'));
+        const int G90{90};
+        const int G91{91};
 
-        if (gCode == 90)
+        if (gCode == G90)
         {
             m_absoluteMode = true;
             return std::nullopt;
         }
-        else if (gCode == 91)
+        else if (gCode == G91)
         {
             m_absoluteMode = false;
             return std::nullopt;
@@ -188,16 +190,20 @@ std::optional<GCommand> GcodeParser::parseLine(const std::string& line)
     if (words.count('M'))
     {
         int mCode = static_cast<int>(words.at('M'));
+        const int spindle_default{1000};
+        const int M3{3};
+        const int M5{5};
+        const int M30{30};
 
-        if (mCode == 3)
+        if (mCode == M3)
         {
-            return SpindleCmd{true, words.count('S') ? (int)words.at('S') : 1000};
+            return SpindleCmd{true, words.count('S') ? (int)words.at('S') : spindle_default};
         }
-        if (mCode == 5)
+        if (mCode == M5)
         {
             return SpindleCmd{false, 0};
         }
-        if (mCode == 30)
+        if (mCode == M30)
         {
             return ProgramEnd{};
         }
