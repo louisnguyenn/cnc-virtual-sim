@@ -193,11 +193,11 @@ std::optional<GCommand> GcodeParser::parseLine(const std::string& line)
         {
             return SpindleCmd{true, words.count('S') ? (int)words.at('S') : 1000};
         }
-        else if (mCode == 5)
+        if (mCode == 5)
         {
             return SpindleCmd{false, 0};
         }
-        else if (mCode == 30)
+        if (mCode == 30)
         {
             return ProgramEnd{};
         }
