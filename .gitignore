@@ -32,6 +32,7 @@ _deps/
 
 # Doxygen
 docs/
+latex/
 
 # Generated files
 toolpath.csv
