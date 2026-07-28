@@ -29,3 +29,15 @@ _deps/
 !assets/*.png
 *.log
 *.html
+
+# Doxygen
+docs/
+
+# Generated files
+toolpath.csv
+toolpath.png
+toolpath3d.html
+simulator.log
+
+# Doxyfile backup
+Doxyfile.bak
